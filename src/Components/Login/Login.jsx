@@ -1,5 +1,5 @@
 import Lottie from "lottie-react";
-import React, { useContext, } from "react";
+import React, { useContext } from "react";
 import loginlottie from "../../assets/login.json";
 import { Link, useNavigate } from "react-router";
 import { AuthContext } from "../../Provider/AuthProvider";
@@ -20,7 +20,7 @@ const Login = () => {
         const user = result.user;
         form.reset();
         setUser(user);
-       
+
         navigate(`${location.state ? location.state : "/"}`);
       })
       .catch((error) => {

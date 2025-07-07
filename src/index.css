@@ -1,2 +1,6 @@
 @import "tailwindcss";
 @plugin "daisyui";
+
+.nav-menu.active {
+ background-color: rgb(124, 117, 117);
+}

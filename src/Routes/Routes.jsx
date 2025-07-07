@@ -10,6 +10,7 @@ import AddDestinations from "../Components/AddDestinations/AddDestinations";
 import AddPackage from "../Components/AddPackage/AddPackage";
 import DashboardLayout from "../Layouts/DashboardLayout/DashboardLayout";
 import Packages from "../Components/Packages/Packages";
+import ViewBookings from "../Components/ViewBookings/ViewBookings";
 
 export const router = createBrowserRouter([
   {
@@ -27,6 +28,10 @@ export const router = createBrowserRouter([
       {
         path: "/login",
         Component: Login,
+      },
+      {
+        path: "/destinations",
+        Component: Destinations,
       },
       {
         path: "/packages",
@@ -55,8 +60,9 @@ export const router = createBrowserRouter([
         Component: AddPackage,
       },
       {
-        path: "/dashboard/viewBookings"
-      }
+        path: "/dashboard/viewBookings",
+        Component: ViewBookings,
+      },
     ],
   },
   {

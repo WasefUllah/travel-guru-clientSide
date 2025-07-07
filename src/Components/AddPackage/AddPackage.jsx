@@ -1,11 +1,14 @@
 import axios from "axios";
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { baseUrl } from "../../URL/baseUrl";
 import Swal from "sweetalert2";
+import { AuthContext } from "../../Provider/AuthProvider";
 
 const AddPackage = () => {
+    const {user} = useContext(AuthContext)
+  
   const [destinations, setDestinations] = useState([]);
   const [offerStartDate, setOfferStartDate] = useState(null);
   const [offerEndDate, setOfferEndDate] = useState(null);
@@ -13,7 +16,7 @@ const AddPackage = () => {
     axios
       .get(`${baseUrl}/destinations`)
       .then((res) => {
-        setDestinations(res.data); // assuming it's an array of destinations
+        setDestinations(res.data); 
       })
       .catch((err) => {
         console.error("Failed to fetch destinations:", err);
@@ -27,6 +30,7 @@ const AddPackage = () => {
     const singlePackage = Object.fromEntries(formData.entries());
     singlePackage.offerStartDate = offerStartDate;
     singlePackage.offerEndDate = offerEndDate;
+    singlePackage.email = user.email;
     console.log(singlePackage);
 
     axios.post(`${baseUrl}/packages`, singlePackage).then((res) => {

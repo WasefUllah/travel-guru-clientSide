@@ -1,9 +1,11 @@
 import axios from "axios";
-import React from "react";
+import React, { useContext } from "react";
 import { baseUrl } from "../../URL/baseUrl";
 import Swal from "sweetalert2";
+import { AuthContext } from "../../Provider/AuthProvider";
 
 const AddDestinations = () => {
+  const {user} = useContext(AuthContext)
   const handleSubmit = (e) => {
     e.preventDefault();
     const form = e.target;
@@ -14,6 +16,7 @@ const AddDestinations = () => {
       destinationName,
       destinationDescription,
       destinationPhoto,
+      email : user.email
     };
     console.log(destination);
 

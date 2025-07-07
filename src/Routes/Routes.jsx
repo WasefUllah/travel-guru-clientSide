@@ -11,6 +11,11 @@ import AddPackage from "../Components/AddPackage/AddPackage";
 import DashboardLayout from "../Layouts/DashboardLayout/DashboardLayout";
 import Packages from "../Components/Packages/Packages";
 import ViewBookings from "../Components/ViewBookings/ViewBookings";
+import PackageOfSpecificDestination from "../Components/PackageOfSpecificDestination/PackageOfSpecificDestination";
+import { baseUrl } from "../URL/baseUrl";
+import Loader from "../Components/Loader/Loader";
+import DestinationList from "../Components/DestinationList/DestinationList";
+import PackageList from "../Components/PackageList/PackageList";
 
 export const router = createBrowserRouter([
   {
@@ -37,6 +42,12 @@ export const router = createBrowserRouter([
         path: "/packages",
         Component: Packages,
       },
+      {
+        path: "/viewPackages/:id",
+        Component: PackageOfSpecificDestination,
+        loader: ({ params }) => fetch(`${baseUrl}/viewPackages/${params.id}`),
+        hydrateFallbackElement: <Loader></Loader>,
+      },
     ],
   },
   {
@@ -62,6 +73,14 @@ export const router = createBrowserRouter([
       {
         path: "/dashboard/viewBookings",
         Component: ViewBookings,
+      },
+      {
+        path: "/dashboard/destinationList",
+        Component: DestinationList,
+      },
+      {
+        path: "/dashboard/packageList",
+        Component: PackageList,
       },
     ],
   },

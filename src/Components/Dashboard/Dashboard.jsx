@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import { AuthContext } from "../../Provider/AuthProvider";
 import Swal from "sweetalert2";
 import { Link, NavLink } from "react-router";
@@ -7,45 +7,91 @@ import { Tooltip } from "react-tooltip";
 const Dashboard = () => {
   const { user, logOut } = useContext(AuthContext);
   console.log(user);
+  const [showDestDropdown, setShowDestDropdown] = useState(false);
+  const [showPackDropdown, setShowPackDropdown] = useState(false);
+
+  const toggleDestDropdown = () => setShowDestDropdown((prev) => !prev);
+  const togglePackDropdown = () => setShowPackDropdown((prev) => !prev);
   const links = (
     <>
       <NavLink
-        to={"/"}
-        className="py-1 px-3 hover:bg-gray-700 rounded-2xl nav-menu  lg:text-lg"
+        to="/"
+        className="py-1 px-3 hover:bg-gray-700 rounded-2xl nav-menu lg:text-lg"
       >
         Home
       </NavLink>
-      {user?.role == "manager" && (
+
+      {user?.role === "manager" && (
         <>
+          {/* Manage Destinations */}
+          <div className="relative">
+            <button
+              onClick={toggleDestDropdown}
+              className="py-1 px-3 hover:bg-gray-700 rounded-2xl nav-menu lg:text-lg w-full text-left"
+            >
+              Manage Destination
+            </button>
+            {showDestDropdown && (
+              <div className="absolute bg-base-200 mt-1 rounded-md shadow z-10 w-48">
+                <NavLink
+                  to="/dashboard/addDestinations"
+                  className="block px-4 py-2 hover:bg-gray-600"
+                >
+                  ➕ Add Destination
+                </NavLink>
+                <NavLink
+                  to="/dashboard/destinationList"
+                  className="block px-4 py-2 hover:bg-gray-600"
+                >
+                  👁️ View List
+                </NavLink>
+              </div>
+            )}
+          </div>
+
+          {/* Manage Packages */}
+          <div className="relative">
+            <button
+              onClick={togglePackDropdown}
+              className="py-1 px-3 hover:bg-gray-700 rounded-2xl nav-menu lg:text-lg w-full text-left"
+            >
+              Manage Package
+            </button>
+            {showPackDropdown && (
+              <div className="absolute bg-base-200 mt-1 rounded-md shadow z-10 w-48">
+                <NavLink
+                  to="/dashboard/addPackage"
+                  className="block px-4 py-2 hover:bg-gray-600"
+                >
+                  ➕ Add Package
+                </NavLink>
+                <NavLink
+                  to="/dashboard/packageList"
+                  className="block px-4 py-2 hover:bg-gray-600"
+                >
+                  👁️ View List
+                </NavLink>
+              </div>
+            )}
+          </div>
+
+          {/* View Bookings */}
           <NavLink
-            to={"/dashboard/addDestinations"}
-            className="py-1 px-3 hover:bg-gray-700 rounded-2xl nav-menu  lg:text-lg"
-          >
-            Add Destination
-          </NavLink>
-          <NavLink
-            to={"/dashboard/addPackage"}
-            className="py-1 px-3 hover:bg-gray-700 rounded-2xl nav-menu  lg:text-lg"
-          >
-            Add Packages
-          </NavLink>
-          <NavLink
-            to={"/dashboard/viewBookings"}
-            className="py-1 px-3 hover:bg-gray-700 rounded-2xl nav-menu  lg:text-lg"
+            to="/dashboard/viewBookings"
+            className="py-1 px-3 hover:bg-gray-700 rounded-2xl nav-menu lg:text-lg"
           >
             View Bookings
           </NavLink>
         </>
       )}
-      {user?.role == "customer" && (
-        <>
-          <NavLink
-            to={"/dashboard/addPackage"}
-            className="py-1 px-2 hover:bg-gray-700 rounded-2xl nav-menu  lg:text-xl"
-          >
-            Add Bookings
-          </NavLink>
-        </>
+
+      {user?.role === "customer" && (
+        <NavLink
+          to="/dashboard/addBooking"
+          className="py-1 px-3 hover:bg-gray-700 rounded-2xl nav-menu lg:text-lg"
+        >
+          Add Booking
+        </NavLink>
       )}
     </>
   );

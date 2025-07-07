@@ -111,6 +111,17 @@ const AddPackage = () => {
         </div>
 
         <div>
+          <label className="block mb-1 font-medium">Member count</label>
+          <input
+            name="memberCount"
+            type="number"
+            className="border p-2 rounded w-full"
+            placeholder="e.g. 4 people"
+            required
+          />
+        </div>
+
+        <div>
           <label className="block mb-1 font-medium">Duration</label>
           <input
             name="duration"

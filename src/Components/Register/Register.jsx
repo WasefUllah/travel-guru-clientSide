@@ -3,6 +3,8 @@ import React, { useContext, useState } from "react";
 import registerlottie from "../../assets/register.json";
 import { Link, useNavigate } from "react-router";
 import { AuthContext } from "../../Provider/AuthProvider";
+import axios from "axios";
+import { baseUrl } from "../../URL/baseUrl";
 const Register = () => {
   const [errorText, setErrorText] = useState("");
   const navigate = useNavigate();
@@ -27,6 +29,9 @@ const Register = () => {
     const email = form.email.value;
     const pass = form.password.value;
     const photo = form.photo.value;
+    const role = form.role.value;
+    // const newUser = { name, email, pass, photo, role };
+    // console.log(name, email, pass, photo, role);
     const passwordRegex = /^(?=.*[A-Z])(?=.*[a-z]).{6,}$/;
     if (!passwordRegex.test(pass)) {
       setErrorText(
@@ -34,19 +39,39 @@ const Register = () => {
       );
       return;
     }
-    signUpWithEmailPass(email, pass).then((result) => {
-      const user = result.user;
-      const updatedUser = { displayName: name, photoURL: photo };
-      updateUser(updatedUser)
-        .then(() => {
-          setUser({ ...user, displayName: name, photoURL: photo });
-          navigate("/");
-        })
-        .catch((error) => {
-          console.log(error);
-          setUser(user);
+
+    // proceed with Firebase signup
+    signUpWithEmailPass(email, pass)
+      .then((result) => {
+        const user = result.user;
+        console.log("Firebase sign up successful");
+
+        const updatedUser = { displayName: name, photoURL: photo };
+        updateUser(updatedUser).then(() => {
+          console.log("Firebase profile updated");
+
+          const newUser = { name, email, role, photo };
+
+          // Axios post
+          axios
+            .post(`${baseUrl}/users`, newUser)
+            .then((res) => {
+              console.log("DB response:", res.data);
+              if (res.data.insertedId) {
+                console.log("user created", role);
+                setUser({ ...user, role });
+                navigate("/");
+              } else {
+                setErrorText("User creation failed in DB");
+              }
+            })
+            .catch((err) => {
+              console.error("DB error:", err.message);
+              setErrorText("Error saving user to database");
+            });
         });
-    });
+      })
+      .catch((err) => setErrorText(err.message));
   };
   return (
     <div className="hero bg-base-200 min-h-screen">
@@ -89,8 +114,31 @@ const Register = () => {
                 className="input"
                 placeholder="Password"
               />
+
+              <label className="label">Sign up as a</label>
+              <div className="form-control">
+                <label className="label cursor-pointer">
+                  <input
+                    type="radio"
+                    name="role"
+                    value="manager"
+                    className="radio "
+                  />
+                  <span className="label-text  mr-4">Manager</span>
+                </label>
+                <label className="label cursor-pointer">
+                  <input
+                    type="radio"
+                    name="role"
+                    value="customer"
+                    className="radio "
+                  />
+                  <span className="label-text  mr-4">Customer</span>
+                </label>
+              </div>
+
               <div>
-                <p>
+                <div>
                   Already have an account? Click here to{" "}
                   <Link to={"/login"} className="link link-hover">
                     login
@@ -100,7 +148,7 @@ const Register = () => {
                   ) : (
                     <p className="h-8"></p>
                   )}
-                </p>
+                </div>
               </div>
               <button type="submit" className="btn btn-neutral mt-2">
                 Register

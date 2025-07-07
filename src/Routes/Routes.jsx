@@ -5,6 +5,9 @@ import Home from "../Components/Home/Home";
 import Register from "../Components/Register/Register";
 import Login from "../Components/Login/Login";
 import AddBookings from "../Components/AddBookings/AddBookings";
+import Destinations from "../Components/Destinations/Destinations";
+import AddDestinations from "../Components/AddDestinations/AddDestinations";
+import AddPackage from "../Components/AddPackage/AddPackage";
 
 export const router = createBrowserRouter([
   {
@@ -24,8 +27,20 @@ export const router = createBrowserRouter([
         Component: Login,
       },
       {
+        path: "destinations",
+        Component: Destinations,
+      },
+      {
         path: "/addBookings",
         Component: AddBookings,
+      },
+      {
+        path: "/addDestinations",
+        Component: AddDestinations,
+      },
+      {
+        path: "/addPackage",
+        Component: AddPackage,
       },
     ],
   },

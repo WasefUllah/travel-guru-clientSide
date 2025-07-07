@@ -11,6 +11,8 @@ import {
   updateProfile,
 } from "firebase/auth";
 import { auth } from "../Firebase/firebase.config";
+import axios from "axios";
+import { baseUrl } from "../URL/baseUrl";
 const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -43,6 +45,11 @@ const AuthProvider = ({ children }) => {
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
       setUser(currentUser);
+      axios.get(`${baseUrl}/users?email=${currentUser.email}`).then((res) => {
+        console.log(res);
+        const role = res.data.user.role;
+        setUser({ ...currentUser, role });
+      });
       setLoading(false);
     });
     return () => {

@@ -1,34 +1,46 @@
 import React, { useContext } from "react";
-import { Link, NavLink } from "react-router";
 import { AuthContext } from "../../Provider/AuthProvider";
 import Swal from "sweetalert2";
+import { Link, NavLink } from "react-router";
 import { Tooltip } from "react-tooltip";
 
-const Navbar = () => {
+const Dashboard = () => {
   const { user, logOut } = useContext(AuthContext);
+  console.log(user);
   const links = (
     <>
-      
-      
-        <NavLink
-          to={"/dashboard"}
-          className="py-1 px-2 hover:bg-gray-700 rounded-2xl nav-menu  lg:text-xl"
-        >
-          Dashboard
-        </NavLink>
-     
       <NavLink
-        to={"/destinations"}
+        to={"/"}
         className="py-1 px-2 hover:bg-gray-700 rounded-2xl nav-menu  lg:text-xl"
       >
-        Destinations
+        Home
       </NavLink>
-      <NavLink
-        to={"/packages"}
-        className="py-1 px-2 hover:bg-gray-700 rounded-2xl nav-menu  lg:text-xl"
-      >
-        Packages
-      </NavLink>
+      {user?.role == "manager" && (
+        <>
+          <NavLink
+            to={"/dashboard/addDestinations"}
+            className="py-1 px-2 hover:bg-gray-700 rounded-2xl nav-menu  lg:text-xl"
+          >
+            Add Bookings
+          </NavLink>
+          <NavLink
+            to={"/dashboard/addPackage"}
+            className="py-1 px-2 hover:bg-gray-700 rounded-2xl nav-menu  lg:text-xl"
+          >
+            Add Packages
+          </NavLink>
+        </>
+      )}
+      {user?.role == "customer" && (
+        <>
+          <NavLink
+            to={"/dashboard/addPackage"}
+            className="py-1 px-2 hover:bg-gray-700 rounded-2xl nav-menu  lg:text-xl"
+          >
+            Add Bookings
+          </NavLink>
+        </>
+      )}
     </>
   );
 
@@ -46,9 +58,9 @@ const Navbar = () => {
         // An error happened.
       });
   };
-  console.log(user);
+
   return (
-    <div className="navbar bg-base-100 shadow-sm p-4 sticky top-0 z-20">
+    <div className="navbar bg-base-100 shadow-sm">
       <div className="navbar-start">
         <div className="dropdown">
           <div tabIndex={0} role="button" className="btn btn-ghost lg:hidden">
@@ -68,6 +80,7 @@ const Navbar = () => {
               />{" "}
             </svg>
           </div>
+
           <ul
             tabIndex={0}
             className="menu menu-sm dropdown-content bg-base-100 rounded-box z-1 mt-3 w-52 p-2 shadow"
@@ -84,8 +97,7 @@ const Navbar = () => {
         </Link>
       </div>
       <div className="navbar-center hidden lg:flex">
-        {/* Links */}
-        <ul className="menu menu-horizontal px-1 space-x-2 ">{links}</ul>
+        <ul className="menu menu-horizontal px-1">{links}</ul>
       </div>
       <div className="navbar-end space-x-2 md:space-x-3 lg:space-x-4">
         {user && (
@@ -131,4 +143,4 @@ const Navbar = () => {
   );
 };
 
-export default Navbar;
+export default Dashboard;

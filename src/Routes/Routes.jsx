@@ -8,6 +8,8 @@ import AddBookings from "../Components/AddBookings/AddBookings";
 import Destinations from "../Components/Destinations/Destinations";
 import AddDestinations from "../Components/AddDestinations/AddDestinations";
 import AddPackage from "../Components/AddPackage/AddPackage";
+import DashboardLayout from "../Layouts/DashboardLayout/DashboardLayout";
+import Packages from "../Components/Packages/Packages";
 
 export const router = createBrowserRouter([
   {
@@ -27,19 +29,29 @@ export const router = createBrowserRouter([
         Component: Login,
       },
       {
-        path: "destinations",
-        Component: Destinations,
+        path: "/packages",
+        Component: Packages,
+      },
+    ],
+  },
+  {
+    path: "/dashboard",
+    Component: DashboardLayout,
+    children: [
+      {
+        index: true,
+        element: <h1>hi this is dashboard</h1>,
       },
       {
-        path: "/addBookings",
+        path: "/dashboard/addBookings",
         Component: AddBookings,
       },
       {
-        path: "/addDestinations",
+        path: "/dashboard/addDestinations",
         Component: AddDestinations,
       },
       {
-        path: "/addPackage",
+        path: "/dashboard/addPackage",
         Component: AddPackage,
       },
     ],

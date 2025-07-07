@@ -54,6 +54,9 @@ export const router = createBrowserRouter([
         path: "/dashboard/addPackage",
         Component: AddPackage,
       },
+      {
+        path: "/dashboard/viewBookings"
+      }
     ],
   },
   {

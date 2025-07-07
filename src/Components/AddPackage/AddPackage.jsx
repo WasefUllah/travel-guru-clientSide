@@ -1,33 +1,46 @@
-import { format } from "date-fns";
-import React, { useState } from "react";
+import axios from "axios";
+import React, { useEffect, useState } from "react";
 import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
+import { baseUrl } from "../../URL/baseUrl";
+import Swal from "sweetalert2";
 
 const AddPackage = () => {
-  const [availableDates, setAvailableDates] = useState([new Date()]);
+  const [destinations, setDestinations] = useState([]);
+  const [offerStartDate, setOfferStartDate] = useState(null);
+  const [offerEndDate, setOfferEndDate] = useState(null);
+  useEffect(() => {
+    axios
+      .get(`${baseUrl}/destinations`)
+      .then((res) => {
+        setDestinations(res.data); // assuming it's an array of destinations
+      })
+      .catch((err) => {
+        console.error("Failed to fetch destinations:", err);
+      });
+  }, []);
 
+  console.log(destinations);
   const handleSubmit = (e) => {
     e.preventDefault();
     const formData = new FormData(e.target);
-    const data = Object.fromEntries(formData.entries());
+    const singlePackage = Object.fromEntries(formData.entries());
+    singlePackage.offerStartDate = offerStartDate;
+    singlePackage.offerEndDate = offerEndDate;
+    console.log(singlePackage);
 
-    data.availableDates = availableDates.map((date) =>
-      format(date, "yyyy-MM-dd")
-    );
-
-    console.log("New Package:", data);
-    // 🔥 Submit to Firestore or backend here
-
-    e.target.reset();
-    setAvailableDates([new Date()]);
+    axios.post(`${baseUrl}/packages`, singlePackage).then((res) => {
+      if (res.data.insertedId) {
+        e.target.reset();
+        Swal.fire({
+          title: "Package added successfully",
+          icon: "success",
+          draggable: true,
+        });
+      }
+    });
   };
 
-  const addDate = () => setAvailableDates([...availableDates, new Date()]);
-
-  const updateDate = (index, newDate) => {
-    const updated = [...availableDates];
-    updated[index] = newDate;
-    setAvailableDates(updated);
-  };
   return (
     <div className="max-w-2xl mx-auto px-4 py-6">
       <h2 className="text-2xl font-semibold mb-6 text-center">
@@ -36,21 +49,27 @@ const AddPackage = () => {
 
       <form onSubmit={handleSubmit} className="space-y-4">
         <div>
+          <label className="block mb-1 font-medium">Select Destination</label>
+          <select
+            name="destination"
+            className="select select-bordered text-white"
+            required
+          >
+            <option value="">-- Select Destination --</option>
+            {destinations.map((dest) => (
+              <option key={dest._id} value={dest._id}>
+                {dest.destinationName}
+              </option>
+            ))}
+          </select>
+        </div>
+
+        <div>
           <label className="block mb-1 font-medium">Package Title</label>
           <input
             name="title"
             className="border p-2 rounded w-full"
             placeholder="e.g. 3 Days in Cox's Bazar"
-            required
-          /> 
-        </div>
-
-        <div>
-          <label className="block mb-1 font-medium">Destination ID</label>
-          <input
-            name="destinationId"
-            className="border p-2 rounded w-full"
-            placeholder="Destination document ID"
             required
           />
         </div>
@@ -77,9 +96,21 @@ const AddPackage = () => {
         </div>
 
         <div>
+          <label className="block mb-1 font-medium">Slot count</label>
+          <input
+            name="slot"
+            type="number"
+            className="border p-2 rounded w-full"
+            placeholder="e.g. 10"
+            required
+          />
+        </div>
+
+        <div>
           <label className="block mb-1 font-medium">Duration</label>
           <input
             name="duration"
+            type="text"
             className="border p-2 rounded w-full"
             placeholder="e.g. 3 Days 2 Nights"
             required
@@ -89,6 +120,7 @@ const AddPackage = () => {
         <div>
           <label className="block mb-1 font-medium">Image URL</label>
           <input
+            type="url"
             name="imageURL"
             className="border p-2 rounded w-full"
             placeholder="Paste image link here"
@@ -97,24 +129,23 @@ const AddPackage = () => {
         </div>
 
         <div>
-          <label className="block mb-1 font-medium">Available Dates</label>
-          {availableDates.map((date, i) => (
-            <div key={i} className="mb-2">
-              <DatePicker
-                selected={date}
-                onChange={(d) => updateDate(i, d)}
-                className="border p-2 rounded w-full"
-                dateFormat="yyyy-MM-dd"
-              />
-            </div>
-          ))}
-          <button
-            type="button"
-            onClick={addDate}
-            className="text-sm text-blue-600 hover:underline mt-1"
-          >
-            + Add Another Date
-          </button>
+          <label className="block mb-1 font-medium">Offer start date</label>
+          <DatePicker
+            selected={offerStartDate}
+            onChange={(date) => setOfferStartDate(date)}
+            className="w-full border border-gray-300 rounded-md px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+            placeholderText="Select a date"
+          />
+        </div>
+
+        <div>
+          <label className="block mb-1 font-medium">Offer start date</label>
+          <DatePicker
+            selected={offerEndDate}
+            onChange={(date) => setOfferEndDate(date)}
+            className="w-full border border-gray-300 rounded-md px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+            placeholderText="Select a date"
+          />
         </div>
 
         <div>

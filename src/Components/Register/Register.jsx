@@ -17,7 +17,6 @@ const Register = () => {
         const email = user.email;
         const name = user.displayName;
         const photo = user.photoURL;
-
         // 1. Check if user exists in DB
         try {
           const res = await axios.get(`${baseUrl}/users?email=${email}`);
@@ -61,8 +60,6 @@ const Register = () => {
     const pass = form.password.value;
     const photo = form.photo.value;
     const role = form.role.value;
-    // const newUser = { name, email, pass, photo, role };
-    // console.log(name, email, pass, photo, role);
     const passwordRegex = /^(?=.*[A-Z])(?=.*[a-z]).{6,}$/;
     if (!passwordRegex.test(pass)) {
       setErrorText(
@@ -75,7 +72,6 @@ const Register = () => {
     signUpWithEmailPass(email, pass)
       .then((result) => {
         const user = result.user;
-
         const updatedUser = { displayName: name, photoURL: photo };
         updateUser(updatedUser).then(() => {
           const newUser = { name, email, role, photo };

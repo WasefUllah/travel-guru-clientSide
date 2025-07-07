@@ -11,7 +11,7 @@ const Dashboard = () => {
     <>
       <NavLink
         to={"/"}
-        className="py-1 px-2 hover:bg-gray-700 rounded-2xl nav-menu  lg:text-xl"
+        className="py-1 px-3 hover:bg-gray-700 rounded-2xl nav-menu  lg:text-lg"
       >
         Home
       </NavLink>
@@ -19,15 +19,21 @@ const Dashboard = () => {
         <>
           <NavLink
             to={"/dashboard/addDestinations"}
-            className="py-1 px-2 hover:bg-gray-700 rounded-2xl nav-menu  lg:text-xl"
+            className="py-1 px-3 hover:bg-gray-700 rounded-2xl nav-menu  lg:text-lg"
           >
-            Add Bookings
+            Add Destination
           </NavLink>
           <NavLink
             to={"/dashboard/addPackage"}
-            className="py-1 px-2 hover:bg-gray-700 rounded-2xl nav-menu  lg:text-xl"
+            className="py-1 px-3 hover:bg-gray-700 rounded-2xl nav-menu  lg:text-lg"
           >
             Add Packages
+          </NavLink>
+          <NavLink
+            to={"/dashboard/viewBookings"}
+            className="py-1 px-3 hover:bg-gray-700 rounded-2xl nav-menu  lg:text-lg"
+          >
+            View Bookings
           </NavLink>
         </>
       )}

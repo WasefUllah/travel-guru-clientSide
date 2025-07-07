@@ -43,6 +43,7 @@ const PackageList = () => {
             <th>Price</th>
             <th>Duration</th>
             <th>Slots</th>
+            <th>Bookings</th>
             <th>Actions</th>
           </tr>
         </thead>
@@ -61,6 +62,7 @@ const PackageList = () => {
               <td>৳ {pkg.price}</td>
               <td>{pkg.duration}</td>
               <td>{pkg.slot}</td>
+              <td>{pkg.booked}</td>
               <td className="space-x-2">
                 <button
                   onClick={() => handleUpdate(pkg._id)}

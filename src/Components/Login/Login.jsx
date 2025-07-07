@@ -3,6 +3,8 @@ import React, { useContext } from "react";
 import loginlottie from "../../assets/login.json";
 import { Link, useNavigate } from "react-router";
 import { AuthContext } from "../../Provider/AuthProvider";
+import axios from "axios";
+import { baseUrl } from "../../URL/baseUrl";
 const Login = () => {
   const navigate = useNavigate();
   const { signInWithEmailPass, setUser, signInWithGoogle } =
@@ -19,9 +21,13 @@ const Login = () => {
       .then((result) => {
         const user = result.user;
         form.reset();
-        setUser(user);
-
-        navigate(`${location.state ? location.state : "/"}`);
+        axios.get(`${baseUrl}/users?email=${email}`).then((res) => {
+          // console.log(res);
+          const role = res.data.user.role;
+          setUser({ ...user, role });
+          // console.log(user);
+          navigate(`${location.state ? location.state : "/"}`);
+        });
       })
       .catch((error) => {
         alert(error);
@@ -31,13 +37,43 @@ const Login = () => {
   //   google btn handler
   const handleGoogleBtn = () => {
     signInWithGoogle()
-      .then((result) => {
+      .then(async (result) => {
         const user = result.user;
-        setUser(user);
-        navigate(`${location.state ? location.state : "/"}`);
+        const email = user.email;
+        const name = user.displayName;
+        const photo = user.photoURL;
+
+        // 1. Check if user exists in DB
+        try {
+          const res = await axios.get(`${baseUrl}/users?email=${email}`);
+          const dbUser = res.data.user;
+
+          // 2. If user exists, setUser with role
+          if (res.data.exists) {
+            setUser({ ...user, role: dbUser.role });
+            navigate("/");
+          } else {
+            // 3. If user does not exist, assign default role (or redirect to role picker page)
+            const newUser = {
+              name,
+              email,
+              photo,
+              role: "customer",
+            };
+
+            const postRes = await axios.post(`${baseUrl}/users`, newUser);
+            if (postRes.data.inserted) {
+              setUser({ ...user, role: newUser.role });
+              navigate("/");
+            }
+          }
+        } catch (error) {
+          console.error("Google login error:", error);
+          alert("Something went wrong during Google sign in");
+        }
       })
       .catch((error) => {
-        console.log(error);
+        console.log("Google sign-in error:", error);
       });
   };
   return (

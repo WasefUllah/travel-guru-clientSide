@@ -12,15 +12,46 @@ const Register = () => {
     useContext(AuthContext);
   const handleGoogleBtn = () => {
     signInWithGoogle()
-      .then((result) => {
+      .then(async (result) => {
         const user = result.user;
-        setUser(user);
-        navigate("/");
+        const email = user.email;
+        const name = user.displayName;
+        const photo = user.photoURL;
+
+        // 1. Check if user exists in DB
+        try {
+          const res = await axios.get(`${baseUrl}/users?email=${email}`);
+          const dbUser = res.data.user;
+
+          // 2. If user exists, setUser with role
+          if (res.data.exists) {
+            setUser({ ...user, role: dbUser.role });
+            navigate("/");
+          } else {
+            // 3. If user does not exist, assign default role (or redirect to role picker page)
+            const newUser = {
+              name,
+              email,
+              photo,
+              role: "customer", // or leave blank if you want to choose later
+            };
+
+            const postRes = await axios.post(`${baseUrl}/users`, newUser);
+            if (postRes.data.inserted) {
+              setUser({ ...user, role: newUser.role });
+              navigate("/");
+            }
+          }
+        } catch (error) {
+          console.error("Google login error:", error);
+          alert("Something went wrong during Google sign in");
+        }
       })
       .catch((error) => {
-        console.log(error);
+        console.log("Google sign-in error:", error);
       });
   };
+
   // sign up
   const handleSignUpBtn = (e) => {
     e.preventDefault();
@@ -44,21 +75,16 @@ const Register = () => {
     signUpWithEmailPass(email, pass)
       .then((result) => {
         const user = result.user;
-        console.log("Firebase sign up successful");
 
         const updatedUser = { displayName: name, photoURL: photo };
         updateUser(updatedUser).then(() => {
-          console.log("Firebase profile updated");
-
           const newUser = { name, email, role, photo };
 
           // Axios post
           axios
             .post(`${baseUrl}/users`, newUser)
             .then((res) => {
-              console.log("DB response:", res.data);
               if (res.data.insertedId) {
-                console.log("user created", role);
                 setUser({ ...user, role });
                 navigate("/");
               } else {
@@ -123,6 +149,7 @@ const Register = () => {
                     name="role"
                     value="manager"
                     className="radio "
+                    required
                   />
                   <span className="label-text  mr-4">Manager</span>
                 </label>

@@ -16,6 +16,8 @@ import { baseUrl } from "../URL/baseUrl";
 import Loader from "../Components/Loader/Loader";
 import DestinationList from "../Components/DestinationList/DestinationList";
 import PackageList from "../Components/PackageList/PackageList";
+import PackageDetails from "../Components/PackageDetails/PackageDetails";
+import { param } from "framer-motion/client";
 
 export const router = createBrowserRouter([
   {
@@ -41,6 +43,12 @@ export const router = createBrowserRouter([
       {
         path: "/packages",
         Component: Packages,
+      },
+      {
+        path: "/packageDetails/:id",
+        Component: PackageDetails,
+        loader: ({ params }) => fetch(`${baseUrl}/package/${params.id}`),
+        hydrateFallbackElement: <Loader></Loader>,
       },
       {
         path: "/viewPackages/:id",

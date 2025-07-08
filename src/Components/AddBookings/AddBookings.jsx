@@ -4,14 +4,34 @@ import { AuthContext } from "../../Provider/AuthProvider";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { format } from "date-fns";
+import axios from "axios";
+import { baseUrl } from "../../URL/baseUrl";
 
 const AddBookings = () => {
   const { user } = useContext(AuthContext);
   const pack = useLoaderData();
   const [travelDate, setTravelDate] = useState(null);
-  console.log(user);
-  const handleSubmit = (e) => {
+ 
+  const handleSubmit = async (e) => {
     e.preventDefault();
+    const form = e.target;
+    const formData = new FormData(form);
+    const booking = Object.fromEntries(formData.entries());
+    booking.userEmail = user.email;
+    booking.packageId = pack._id;
+    booking.fee = pack.price;
+    booking.travelDate = travelDate;
+    console.log(booking);
+     try {
+      await axios
+        .post(
+          `${baseUrl}/bookings`,
+          booking
+        )
+        .then((res) => window.location.replace(res.data.url));
+    } catch (error) {
+      console.error("Registration failed:", error);
+    }
   };
 
   return (
@@ -25,16 +45,49 @@ const AddBookings = () => {
         </div>
 
         <div>
-          <label className="block mb-1 font-medium" htmlFor="packageId">
-            Package Name
-          </label>
+          <label className="block mb-1 font-medium">Package Name</label>
           <input value={pack.title} className="input w-full" required />
         </div>
 
         <div>
-          <label className="block mb-1 font-medium" htmlFor="packageId">
-            Offer End Date
+          <label className="block mb-1 font-medium">First Name</label>
+          <input
+            name="firstName"
+            type="text"
+            className="input w-full"
+            required
+          />
+        </div>
+
+        <div>
+          <label className="block mb-1 font-medium">Last Name</label>
+          <input
+            name="lastName"
+            type="text"
+            className="input w-full"
+            required
+          />
+        </div>
+
+        <div>
+          <label className="block mb-1 font-medium">Contact Number</label>
+          <input name="phone" type="number" className="input w-full" required />
+        </div>
+
+        <div>
+          <label className="block mb-1 font-medium">
+            Additional Information
           </label>
+          <input
+            name="additionalInfo"
+            type="text"
+            className="input w-full"
+            required
+          />
+        </div>
+
+        <div>
+          <label className="block mb-1 font-medium">Offer End Date</label>
           <input
             value={format(new Date(pack.offerEndDate), "do MMMM, yyyy")}
             className="input w-full"
@@ -43,7 +96,7 @@ const AddBookings = () => {
         </div>
 
         <div>
-          <label className="block mb-1 font-medium">Offer end date</label>
+          <label className="block mb-1 font-medium">Travel date</label>
           <DatePicker
             selected={travelDate}
             onChange={(date) => setTravelDate(date)}
@@ -52,37 +105,9 @@ const AddBookings = () => {
           />
         </div>
 
-        <div>
-          <label className="block mb-1 font-medium" htmlFor="numberOfPeople">
-            Number of People
-          </label>
-          <input
-            id="numberOfPeople"
-            name="numberOfPeople"
-            type="number"
-            placeholder="People Count"
-            className="input w-full"
-            required
-          />
-        </div>
-
-        <div>
-          <label className="block mb-1 font-medium" htmlFor="totalPrice">
-            Total Price
-          </label>
-          <input
-            id="totalPrice"
-            name="totalPrice"
-            type="number"
-            placeholder="Total Price"
-            className="input w-full"
-            required
-          />
-        </div>
-
         <div className="flex justify-center items-center">
-          <button type="submit" className="btn">
-            Add Booking
+          <button type="submit" className="btn btn-primary">
+            {`Book for ${pack.price} ৳`}
           </button>
         </div>
       </form>

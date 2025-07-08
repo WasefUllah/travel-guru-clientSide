@@ -36,7 +36,7 @@ const Register = () => {
             };
 
             const postRes = await axios.post(`${baseUrl}/users`, newUser);
-            if (postRes.data.inserted) {
+            if (postRes.data.insertedId) {
               setUser({ ...user, role: newUser.role });
               navigate("/");
             }

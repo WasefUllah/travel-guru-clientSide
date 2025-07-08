@@ -22,6 +22,9 @@ const AddBookings = () => {
     booking.packageId = pack._id;
     booking.fee = pack.price;
     booking.travelDate = travelDate;
+    booking.managerEmail = pack.email;
+    booking.packageTitle = pack.title;
+    booking.bookedAt = new Date();
     console.log(booking);
 
     try {
@@ -32,7 +35,7 @@ const AddBookings = () => {
       console.error("Registration failed:", error);
     }
   };
-  
+
   return (
     <div>
       {!loading && (

@@ -5,6 +5,7 @@ import PackageCard from "../PackageCard/PackageCard";
 const PackageOfSpecificDestination = () => {
   // const [packages, setPackages] = useState([]);
   const packages = useLoaderData();
+  console.log(packages)
 
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 min-h-screen">

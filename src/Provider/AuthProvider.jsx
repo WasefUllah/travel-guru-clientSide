@@ -46,7 +46,6 @@ const AuthProvider = ({ children }) => {
     const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
       setUser(currentUser);
       axios.get(`${baseUrl}/users?email=${currentUser.email}`).then((res) => {
-        console.log(res);
         const role = res.data.user.role;
         setUser({ ...currentUser, role });
       });

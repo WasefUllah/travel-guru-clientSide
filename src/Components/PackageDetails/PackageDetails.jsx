@@ -1,5 +1,5 @@
 import React from "react";
-import { useLoaderData } from "react-router";
+import { Link, useLoaderData } from "react-router";
 
 const PackageDetails = () => {
 
@@ -48,9 +48,9 @@ const PackageDetails = () => {
           </div>
 
           <div className="mt-6">
-            <button className="btn btn-primary w-full lg:w-auto px-6">
+            <Link to={`/addBookings/${pack._id}`} className="btn btn-primary w-full lg:w-auto px-6">
               Book Now
-            </button>
+            </Link>
           </div>
         </div>
       </div>

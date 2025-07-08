@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { baseUrl } from "../../URL/baseUrl";
+import Swal from "sweetalert2";
 
 const PackageList = () => {
   const [packages, setPackages] = useState([]);
@@ -12,18 +13,82 @@ const PackageList = () => {
   }, []);
 
   const handleDelete = async (id) => {
-    const confirm = window.confirm(
-      "Are you sure you want to delete this package?"
-    );
-    if (!confirm) return;
+    // try {
+    //   await axios.get(`${baseUrl}/relatedPackages/${id}`).then((res) => {
+    //     console.log(res.data);
+    //     if (res.data.length > 0) {
+    //       Swal.fire({
+    //         icon: "error",
+    //         title: "Oops...",
+    //         text: "This destination has related package",
+    //         footer: "Make sure there are no related package",
+    //       });
+    //     } else {
+    //       Swal.fire({
+    //         title: "Are you sure?",
+    //         text: "You won't be able to revert this!",
+    //         icon: "warning",
+    //         showCancelButton: true,
+    //         confirmButtonColor: "#3085d6",
+    //         cancelButtonColor: "#d33",
+    //         confirmButtonText: "Yes, delete it!",
+    //       }).then((result) => {
+    //         if (result.isConfirmed) {
+    //           axios
+    //             .delete(`${baseUrl}/destinations/${id}`)
+    //             .then((res) => {
+    //               if (res.data.deletedCount) {
+    //                 setDestinations(
+    //                   destinations.filter((rem) => rem._id != id)
+    //                 );
+    //                 Swal.fire({
+    //                   title: "Deleted!",
+    //                   text: "Your file has been deleted.",
+    //                   icon: "success",
+    //                 });
+    //               }
+    //             })
+    //             .catch((err) => console.log(err));
+    //         }
+    //         // axios.delete(`${baseUrl}/destinations/${id}`).then((res) => {
+    //         //   if (res.data.deletedCount) {
+    //         //     // remaining logic
+    //         //   }
+    //       });
+    //     }
+    //   });
 
-    try {
-      await axios.delete(`${baseUrl}/packages/${id}`);
-      setPackages((prev) => prev.filter((item) => item._id !== id));
-      alert("Package deleted.");
-    } catch (error) {
-      console.log(error);
-    }
+    //   // setDestinations((prev) => prev.filter((item) => item._id !== id));
+    //   // alert("Destination deleted.");
+    // } catch (err) {
+    //   console.log(err);
+    // }
+
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You won't be able to revert this!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, delete it!",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        axios
+          .delete(`${baseUrl}/packages/${id}`)
+          .then((res) => {
+            if (res.data.deletedCount) {
+              setPackages(packages.filter((rem) => rem._id != id));
+              Swal.fire({
+                title: "Deleted!",
+                text: "Your file has been deleted.",
+                icon: "success",
+              });
+            }
+          })
+          .catch((err) => console.log(err));
+      }
+    });
   };
 
   const handleUpdate = (id) => {

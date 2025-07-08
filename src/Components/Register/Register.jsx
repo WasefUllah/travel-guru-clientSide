@@ -32,7 +32,7 @@ const Register = () => {
               name,
               email,
               photo,
-              role: "customer", // or leave blank if you want to choose later
+              role: "customer", 
             };
 
             const postRes = await axios.post(`${baseUrl}/users`, newUser);

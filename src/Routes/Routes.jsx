@@ -17,7 +17,6 @@ import Loader from "../Components/Loader/Loader";
 import DestinationList from "../Components/DestinationList/DestinationList";
 import PackageList from "../Components/PackageList/PackageList";
 import PackageDetails from "../Components/PackageDetails/PackageDetails";
-import { param } from "framer-motion/client";
 
 export const router = createBrowserRouter([
   {
@@ -45,6 +44,12 @@ export const router = createBrowserRouter([
         Component: Packages,
       },
       {
+        path: "/addBookings/:id",
+        Component: AddBookings,
+        loader: ({ params }) => fetch(`${baseUrl}/package/${params.id}`),
+        hydrateFallbackElement: <Loader></Loader>,
+      },
+      {
         path: "/packageDetails/:id",
         Component: PackageDetails,
         loader: ({ params }) => fetch(`${baseUrl}/package/${params.id}`),
@@ -66,10 +71,7 @@ export const router = createBrowserRouter([
         index: true,
         element: <h1>hi this is dashboard</h1>,
       },
-      {
-        path: "/dashboard/addBookings",
-        Component: AddBookings,
-      },
+
       {
         path: "/dashboard/addDestinations",
         Component: AddDestinations,

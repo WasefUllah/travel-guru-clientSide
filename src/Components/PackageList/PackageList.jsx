@@ -13,80 +13,43 @@ const PackageList = () => {
   }, []);
 
   const handleDelete = async (id) => {
-    // try {
-    //   await axios.get(`${baseUrl}/relatedPackages/${id}`).then((res) => {
-    //     console.log(res.data);
-    //     if (res.data.length > 0) {
-    //       Swal.fire({
-    //         icon: "error",
-    //         title: "Oops...",
-    //         text: "This destination has related package",
-    //         footer: "Make sure there are no related package",
-    //       });
-    //     } else {
-    //       Swal.fire({
-    //         title: "Are you sure?",
-    //         text: "You won't be able to revert this!",
-    //         icon: "warning",
-    //         showCancelButton: true,
-    //         confirmButtonColor: "#3085d6",
-    //         cancelButtonColor: "#d33",
-    //         confirmButtonText: "Yes, delete it!",
-    //       }).then((result) => {
-    //         if (result.isConfirmed) {
-    //           axios
-    //             .delete(`${baseUrl}/destinations/${id}`)
-    //             .then((res) => {
-    //               if (res.data.deletedCount) {
-    //                 setDestinations(
-    //                   destinations.filter((rem) => rem._id != id)
-    //                 );
-    //                 Swal.fire({
-    //                   title: "Deleted!",
-    //                   text: "Your file has been deleted.",
-    //                   icon: "success",
-    //                 });
-    //               }
-    //             })
-    //             .catch((err) => console.log(err));
-    //         }
-    //         // axios.delete(`${baseUrl}/destinations/${id}`).then((res) => {
-    //         //   if (res.data.deletedCount) {
-    //         //     // remaining logic
-    //         //   }
-    //       });
-    //     }
-    //   });
+ 
 
-    //   // setDestinations((prev) => prev.filter((item) => item._id !== id));
-    //   // alert("Destination deleted.");
-    // } catch (err) {
-    //   console.log(err);
-    // }
-
-    Swal.fire({
-      title: "Are you sure?",
-      text: "You won't be able to revert this!",
-      icon: "warning",
-      showCancelButton: true,
-      confirmButtonColor: "#3085d6",
-      cancelButtonColor: "#d33",
-      confirmButtonText: "Yes, delete it!",
-    }).then((result) => {
-      if (result.isConfirmed) {
-        axios
-          .delete(`${baseUrl}/packages/${id}`)
-          .then((res) => {
-            if (res.data.deletedCount) {
-              setPackages(packages.filter((rem) => rem._id != id));
-              Swal.fire({
-                title: "Deleted!",
-                text: "Your file has been deleted.",
-                icon: "success",
-              });
-            }
-          })
-          .catch((err) => console.log(err));
+    await axios.get(`${baseUrl}/relatedBookings/${id}`).then((res) => {
+      console.log(res.data);
+      if (res.data.length > 0) {
+        Swal.fire({
+          icon: "error",
+          title: "Oops...",
+          text: "This destination has related package",
+          footer: "Make sure there are no related package",
+        });
+      } else {
+        Swal.fire({
+          title: "Are you sure?",
+          text: "You won't be able to revert this!",
+          icon: "warning",
+          showCancelButton: true,
+          confirmButtonColor: "#3085d6",
+          cancelButtonColor: "#d33",
+          confirmButtonText: "Yes, delete it!",
+        }).then((result) => {
+          if (result.isConfirmed) {
+            axios
+              .delete(`${baseUrl}/packages/${id}`)
+              .then((res) => {
+                if (res.data.deletedCount) {
+                  setPackages(packages.filter((rem) => rem._id != id));
+                  Swal.fire({
+                    title: "Deleted!",
+                    text: "Your file has been deleted.",
+                    icon: "success",
+                  });
+                }
+              })
+              .catch((err) => console.log(err));
+          }
+        });
       }
     });
   };
@@ -97,7 +60,7 @@ const PackageList = () => {
   };
 
   return (
-    <div className="overflow-x-auto p-4">
+    <div className="overflow-x-auto p-4 min-h-screen">
       <h2 className="text-2xl font-bold mb-4">All Packages</h2>
       <table className="table w-full border">
         <thead>

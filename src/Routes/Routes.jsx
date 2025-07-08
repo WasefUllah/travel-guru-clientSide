@@ -17,6 +17,8 @@ import Loader from "../Components/Loader/Loader";
 import DestinationList from "../Components/DestinationList/DestinationList";
 import PackageList from "../Components/PackageList/PackageList";
 import PackageDetails from "../Components/PackageDetails/PackageDetails";
+import Success from "../Components/Success/Success";
+import Failed from "../Components/Failed/Failed";
 
 export const router = createBrowserRouter([
   {
@@ -93,6 +95,14 @@ export const router = createBrowserRouter([
         Component: PackageList,
       },
     ],
+  },
+  {
+    path: "/success/:tranId",
+    Component: Success,
+  },
+  {
+    path: "/failed",
+    Component: Failed,
   },
   {
     path: "/*",

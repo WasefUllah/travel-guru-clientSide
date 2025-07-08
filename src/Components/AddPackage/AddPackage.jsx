@@ -56,7 +56,7 @@ const AddPackage = () => {
         <div>
           <label className="block mb-1 font-medium">Select Destination</label>
           <select
-            name="destination"
+            name="destinationId"
             className="select select-bordered text-white"
             required
           >

@@ -8,10 +8,11 @@ import axios from "axios";
 import { baseUrl } from "../../URL/baseUrl";
 
 const AddBookings = () => {
-  const { user } = useContext(AuthContext);
+  const { user, loading } = useContext(AuthContext);
+  const userName = user?.displayName;
   const pack = useLoaderData();
   const [travelDate, setTravelDate] = useState(null);
- 
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     const form = e.target;
@@ -22,95 +23,115 @@ const AddBookings = () => {
     booking.fee = pack.price;
     booking.travelDate = travelDate;
     console.log(booking);
-     try {
+
+    try {
       await axios
-        .post(
-          `${baseUrl}/bookings`,
-          booking
-        )
+        .post(`${baseUrl}/bookings`, booking)
         .then((res) => window.location.replace(res.data.url));
     } catch (error) {
       console.error("Registration failed:", error);
     }
   };
-
+  
   return (
     <div>
-      <form onSubmit={handleSubmit} className="space-y-4 p-4 max-w-xl mx-auto">
+      {!loading && (
         <div>
-          <label className="block mb-1 font-medium" htmlFor="userUid">
-            User Name
-          </label>
-          <input value={user?.displayName} className="input w-full" required />
-        </div>
+          <form
+            onSubmit={handleSubmit}
+            className="space-y-4 p-4 max-w-xl mx-auto"
+          >
+            <div>
+              <label className="block mb-1 font-medium" htmlFor="userUid">
+                User Name
+              </label>
+              <input
+                value={userName}
+                className="input w-full"
+                required
+                readOnly
+              />
+            </div>
 
-        <div>
-          <label className="block mb-1 font-medium">Package Name</label>
-          <input value={pack.title} className="input w-full" required />
-        </div>
+            <div>
+              <label className="block mb-1 font-medium">Package Name</label>
+              <input
+                value={pack.title}
+                className="input w-full"
+                required
+                readOnly
+              />
+            </div>
 
-        <div>
-          <label className="block mb-1 font-medium">First Name</label>
-          <input
-            name="firstName"
-            type="text"
-            className="input w-full"
-            required
-          />
-        </div>
+            <div>
+              <label className="block mb-1 font-medium">First Name</label>
+              <input
+                name="firstName"
+                type="text"
+                className="input w-full"
+                required
+              />
+            </div>
 
-        <div>
-          <label className="block mb-1 font-medium">Last Name</label>
-          <input
-            name="lastName"
-            type="text"
-            className="input w-full"
-            required
-          />
-        </div>
+            <div>
+              <label className="block mb-1 font-medium">Last Name</label>
+              <input
+                name="lastName"
+                type="text"
+                className="input w-full"
+                required
+              />
+            </div>
 
-        <div>
-          <label className="block mb-1 font-medium">Contact Number</label>
-          <input name="phone" type="number" className="input w-full" required />
-        </div>
+            <div>
+              <label className="block mb-1 font-medium">Contact Number</label>
+              <input
+                name="phone"
+                type="number"
+                className="input w-full"
+                required
+              />
+            </div>
 
-        <div>
-          <label className="block mb-1 font-medium">
-            Additional Information
-          </label>
-          <input
-            name="additionalInfo"
-            type="text"
-            className="input w-full"
-            required
-          />
-        </div>
+            <div>
+              <label className="block mb-1 font-medium">
+                Additional Information
+              </label>
+              <input
+                name="additionalInfo"
+                type="text"
+                className="input w-full"
+                required
+              />
+            </div>
 
-        <div>
-          <label className="block mb-1 font-medium">Offer End Date</label>
-          <input
-            value={format(new Date(pack.offerEndDate), "do MMMM, yyyy")}
-            className="input w-full"
-            readOnly
-          />
-        </div>
+            <div>
+              <label className="block mb-1 font-medium">Offer End Date</label>
+              <input
+                value={format(new Date(pack.offerEndDate), "do MMMM, yyyy")}
+                className="input w-full"
+                readOnly
+              />
+            </div>
 
-        <div>
-          <label className="block mb-1 font-medium">Travel date</label>
-          <DatePicker
-            selected={travelDate}
-            onChange={(date) => setTravelDate(date)}
-            className="w-full border border-gray-300 rounded-md px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
-            placeholderText="Select a date"
-          />
-        </div>
+            <div>
+              <label className="block mb-1 font-medium">Travel date</label>
+              <DatePicker
+                selected={travelDate}
+                onChange={(date) => setTravelDate(date)}
+                className="w-full border border-gray-300 rounded-md px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                placeholderText="Select a date"
+              />
+            </div>
 
-        <div className="flex justify-center items-center">
-          <button type="submit" className="btn btn-primary">
-            {`Book for ${pack.price} ৳`}
-          </button>
+            <div className="flex justify-center items-center">
+              <button type="submit" className="btn btn-primary">
+                {`Book for ${pack.price} ৳`}
+              </button>
+            </div>
+          </form>
         </div>
-      </form>
+      )}
     </div>
   );
 };

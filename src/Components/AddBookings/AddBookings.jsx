@@ -44,12 +44,11 @@ const AddBookings = () => {
 
     Swal.fire({
       title: "Are you sure?",
-      text: "You won't be able to revert this!",
-      icon: "warning",
+      text: "There has no refund policy",
       showCancelButton: true,
       confirmButtonColor: "#3085d6",
       cancelButtonColor: "#d33",
-      confirmButtonText: "Yes, delete it!",
+      confirmButtonText: "Yes, Book it!",
     }).then((result) => {
       if (result.isConfirmed) {
         // Swal.fire({
@@ -125,7 +124,7 @@ const AddBookings = () => {
               <label className="block mb-1 font-medium">Contact Number</label>
               <input
                 name="phone"
-                type="number"
+                type="phone"
                 className="input w-full"
                 required
               />

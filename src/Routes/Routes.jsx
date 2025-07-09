@@ -21,6 +21,7 @@ import Success from "../Components/Success/Success";
 import Failed from "../Components/Failed/Failed";
 import MyBookings from "../Components/MyBookings/MyBookings";
 import PaymentHistory from "../Components/PaymentHistory/PaymentHistory";
+import PrivateRoute from "../PrivateRoute/PrivateRoute";
 
 export const router = createBrowserRouter([
   {
@@ -69,7 +70,11 @@ export const router = createBrowserRouter([
   },
   {
     path: "/dashboard",
-    Component: DashboardLayout,
+    element: (
+      <PrivateRoute>
+        <DashboardLayout></DashboardLayout>
+      </PrivateRoute>
+    ),
     children: [
       {
         index: true,

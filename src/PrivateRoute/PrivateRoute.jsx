@@ -5,9 +5,9 @@ import Loader from "../Components/Loader/Loader";
 
 const PrivateRoute = ({ children }) => {
   const location = useLocation();
-  
 
   const { user, loading } = use(AuthContext);
+  console.log(loading);
   if (loading) {
     return <Loader></Loader>;
   }

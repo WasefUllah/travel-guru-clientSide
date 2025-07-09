@@ -5,7 +5,7 @@ import Swal from "sweetalert2";
 import { Tooltip } from "react-tooltip";
 
 const Navbar = () => {
-  const { user, logOut } = useContext(AuthContext);
+  const { user, logOut, setLoading } = useContext(AuthContext);
   const links = (
     <>
       
@@ -36,6 +36,7 @@ const Navbar = () => {
     logOut()
       .then(() => {
         // Sign-out successful.
+        setLoading(false)
         Swal.fire({
           title: "Logged out!",
           icon: "success",

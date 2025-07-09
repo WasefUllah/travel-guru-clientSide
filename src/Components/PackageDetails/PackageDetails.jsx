@@ -1,11 +1,23 @@
 import React from "react";
-import { Link, useLoaderData } from "react-router";
+import { Link, useLoaderData, useNavigate } from "react-router";
+import Swal from "sweetalert2";
 
 const PackageDetails = () => {
-
   const pack = useLoaderData();
-  console.log(pack)
-
+  const navigate = useNavigate();
+  console.log(pack);
+  const remainingSlot = parseInt(pack.slot) - parseInt(pack.booked);
+  const handleClick = (id) => {
+    if (remainingSlot <= 0) {
+      Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: "No slot remaining!",
+      });
+    } else {
+      navigate(`/addBookings/${id}`);
+    }
+  };
   return (
     <div className="container mx-auto p-4 max-w-5xl">
       <div className="bg-base-100 rounded-xl shadow-lg flex flex-col lg:flex-row gap-6 p-6">
@@ -44,18 +56,24 @@ const PackageDetails = () => {
                 <span className="font-semibold">Offer Ends:</span>{" "}
                 {new Date(pack.offerEndDate).toLocaleDateString()}
               </p>
+              <p>
+                <span className="font-semibold">Remaining slot:</span>{" "}
+                {remainingSlot}
+              </p>
             </div>
           </div>
 
           <div className="mt-6">
-            <Link to={`/addBookings/${pack._id}`} className="btn btn-primary w-full lg:w-auto px-6">
+            <button
+              onClick={() => handleClick(pack._id)}
+              className="btn btn-primary w-full lg:w-auto px-6"
+            >
               Book Now
-            </Link>
+            </button>
           </div>
         </div>
       </div>
     </div>
-    
   );
 };
 

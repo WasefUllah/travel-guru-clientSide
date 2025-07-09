@@ -2,19 +2,33 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { baseUrl } from "../../URL/baseUrl";
 import Swal from "sweetalert2";
+import { FaHeart } from "react-icons/fa";
+import { CiHeart } from "react-icons/ci";
+import UpdatePackage from "../UpdatePackage/UpdatePackage";
 
 const PackageList = () => {
   const [packages, setPackages] = useState([]);
+  const [refresh, setRefresh] = useState(false);
+  const [toBeUpdatedPackage, setToBeUpdatedPackage] = useState([]);
 
   useEffect(() => {
     axios.get(`${baseUrl}/packages`).then((res) => {
       setPackages(res.data);
     });
-  }, []);
+  }, [refresh]);
+  const handleClick = (id) => {
+    axios
+      .patch(`${baseUrl}/package/${id}`)
+      .then((res) => {
+        if (res.data.modifiedCount > 0) {
+          setRefresh(!refresh);
+        }
+      })
+      .catch();
+  };
 
   const handleDelete = async (id) => {
     await axios.get(`${baseUrl}/relatedBookings/${id}`).then((res) => {
-      console.log(res.data);
       if (res.data.length > 0) {
         Swal.fire({
           icon: "error",
@@ -54,7 +68,8 @@ const PackageList = () => {
 
   const handleUpdate = (id) => {
     console.log("Update package:", id);
-    // Navigate or show modal (optional)
+    const selected = packages.find((p) => p._id == id);
+    setToBeUpdatedPackage(selected);
   };
 
   return (
@@ -63,53 +78,81 @@ const PackageList = () => {
       {!packages ? (
         <p>No available packages</p>
       ) : (
-        <table className="table w-full border">
-          <thead>
-            <tr className="bg-gray-100 text-gray-700">
-              <th>#</th>
-              <th>Image</th>
-              <th>Title</th>
-              <th>Price</th>
-              <th>Duration</th>
-              <th>Slots</th>
-              <th>Bookings</th>
-              <th>Actions</th>
-            </tr>
-          </thead>
-          <tbody>
-            {packages.map((pkg, index) => (
-              <tr key={pkg._id}>
-                <td>{index + 1}</td>
-                <td>
-                  <img
-                    src={pkg.imageURL}
-                    alt={pkg.title}
-                    className="w-16 h-16 object-cover rounded"
-                  />
-                </td>
-                <td>{pkg.title}</td>
-                <td>৳ {pkg.price}</td>
-                <td>{pkg.duration}</td>
-                <td>{pkg.slot}</td>
-                <td>{pkg.booked}</td>
-                <td className="space-x-2">
-                  <button
-                    onClick={() => handleUpdate(pkg._id)}
-                    className="btn btn-sm btn-outline btn-info"
-                  >
-                    Update
-                  </button>
-                  <button
-                    onClick={() => handleDelete(pkg._id)}
-                    className="btn btn-sm btn-outline btn-error"
-                  >
-                    Delete
-                  </button>
-                </td>
+        <div>
+          <table className="table w-full border">
+            <thead>
+              <tr className="bg-gray-100 text-gray-700">
+                <th>#</th>
+                <th>Image</th>
+                <th>Title</th>
+                <th>Price</th>
+                <th>Duration</th>
+                <th>Slots</th>
+                <th>Bookings</th>
+                <th>popular</th>
+                <th>Actions</th>
               </tr>
-            ))}
-          </tbody>
-        </table>
+            </thead>
+            <tbody>
+              {packages.map((pkg, index) => (
+                <tr key={pkg._id}>
+                  <td>{index + 1}</td>
+                  <td>
+                    <img
+                      src={pkg.imageURL}
+                      alt={pkg.title}
+                      className="w-16 h-16 object-cover rounded"
+                    />
+                  </td>
+                  <td>{pkg.title}</td>
+                  <td>৳ {pkg.price}</td>
+                  <td>{pkg.duration}</td>
+                  <td>{pkg.slot}</td>
+                  <td>{pkg.booked}</td>
+                  <td onClick={() => handleClick(pkg._id)}>
+                    {pkg.popular ? (
+                      <FaHeart size={25} className="text-red-600" />
+                    ) : (
+                      <CiHeart size={25} />
+                    )}
+                  </td>
+                  <td className="space-x-2">
+                    <button
+                      onClick={() => {
+                        handleUpdate(pkg._id);
+                        document.getElementById("my_modal_1").showModal();
+                      }}
+                      className="btn btn-sm btn-outline btn-info"
+                    >
+                      Update
+                    </button>
+                    <button
+                      onClick={() => handleDelete(pkg._id)}
+                      className="btn btn-sm btn-outline btn-error"
+                    >
+                      Delete
+                    </button>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+          <dialog id="my_modal_1" className="modal">
+            <div className="modal-box">
+              <UpdatePackage
+                toBeUpdatedPackage={toBeUpdatedPackage}
+                refresh={refresh}
+                setRefresh={setRefresh}
+              ></UpdatePackage>
+              <div className="modal-action">
+                <form method="dialog">
+                  {/* if there is a button in form, it will close the modal */}
+                  <button className="btn">Close</button>
+                </form>
+              </div>
+            </div>
+          </dialog>
+        </div>
       )}
     </div>
   );

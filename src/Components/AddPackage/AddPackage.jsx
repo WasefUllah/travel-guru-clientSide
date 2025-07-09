@@ -34,6 +34,8 @@ const AddPackage = () => {
     singlePackage.offerEndDate = offerEndDate;
     singlePackage.email = user.email;
     singlePackage.booked = 0;
+    singlePackage.popular = false;
+    singlePackage.approved = false;
     console.log(singlePackage);
 
     axios.post(`${baseUrl}/packages`, singlePackage).then((res) => {

@@ -6,6 +6,7 @@ import "react-datepicker/dist/react-datepicker.css";
 import { format } from "date-fns";
 import axios from "axios";
 import { baseUrl } from "../../URL/baseUrl";
+import Swal from "sweetalert2";
 
 const AddBookings = () => {
   const { user, loading } = useContext(AuthContext);
@@ -27,21 +28,53 @@ const AddBookings = () => {
     booking.packageTitle = pack.title;
     booking.destinationTitle = pack.destinationTitle;
     booking.bookedAt = new Date();
-    console.log(booking);
+    console.log(pack);
+    const selectedDate = new Date(travelDate);
+    const startDate = new Date(pack.offerStartDate);
+    const endDate = new Date(pack.offerEndDate);
 
-    try {
-      await axios
-        .post(`${baseUrl}/bookings`, booking)
-        .then((res) => window.location.replace(res.data.url));
-    } catch (error) {
-      console.error("Registration failed:", error);
+    if (selectedDate > endDate || selectedDate < startDate) {
+      Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: "Our offered day range doesn't match with you travel days!",
+      });
+      return;
     }
+
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You won't be able to revert this!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, delete it!",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        // Swal.fire({
+        //   title: "Deleted!",
+        //   text: "Your file has been deleted.",
+        //   icon: "success",
+        // });
+        try {
+          axios
+            .post(`${baseUrl}/bookings`, booking)
+            .then((res) => window.location.replace(res.data.url));
+        } catch (error) {
+          console.error("Registration failed:", error);
+        }
+      }
+    });
   };
 
   return (
     <div>
       {!loading && (
         <div>
+          <h1 className="text-center text-2xl font-bold my-2 md:text-3xl lg:text-4xl text-primary">
+            Add a booking
+          </h1>
           <form
             onSubmit={handleSubmit}
             className="space-y-4 p-4 max-w-xl mx-auto"
@@ -110,13 +143,25 @@ const AddBookings = () => {
               />
             </div>
 
-            <div>
-              <label className="block mb-1 font-medium">Offer End Date</label>
-              <input
-                value={format(new Date(pack.offerEndDate), "do MMMM, yyyy")}
-                className="input w-full"
-                readOnly
-              />
+            <div className="flex justify-between items-center">
+              <div>
+                <label className="block mb-1 font-medium">
+                  Offer Start Date
+                </label>
+                <input
+                  value={format(new Date(pack.offerStartDate), "do MMMM, yyyy")}
+                  className="input w-full"
+                  readOnly
+                />
+              </div>
+              <div>
+                <label className="block mb-1 font-medium">Offer End Date</label>
+                <input
+                  value={format(new Date(pack.offerEndDate), "do MMMM, yyyy")}
+                  className="input w-full"
+                  readOnly
+                />
+              </div>
             </div>
 
             <div>

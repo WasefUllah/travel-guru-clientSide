@@ -24,6 +24,7 @@ import PaymentHistory from "../Components/PaymentHistory/PaymentHistory";
 import PrivateRoute from "../PrivateRoute/PrivateRoute";
 import ApprovePackage from "../Components/ApprovePackage/ApprovePackage";
 import AllPackages from "../Components/AllPackages/AllPackages";
+import AboutUs from "../Components/AboutUs/AboutUs";
 
 export const router = createBrowserRouter([
   {
@@ -49,6 +50,10 @@ export const router = createBrowserRouter([
       {
         path: "/packages",
         Component: Packages,
+      },
+      {
+        path: "/aboutUs",
+        Component: AboutUs,
       },
       {
         path: "/addBookings/:id",

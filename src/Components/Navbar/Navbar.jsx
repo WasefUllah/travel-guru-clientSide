@@ -29,6 +29,12 @@ const Navbar = () => {
       >
         Packages
       </NavLink>
+      <NavLink
+        to={"/aboutUs"}
+        className="py-1 px-2 hover:bg-gray-700 rounded-2xl nav-menu  lg:text-xl"
+      >
+        About Us
+      </NavLink>
     </>
   );
 

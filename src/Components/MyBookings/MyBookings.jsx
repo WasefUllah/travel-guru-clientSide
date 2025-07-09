@@ -82,8 +82,8 @@ const MyBookings = () => {
             >
               <option value="">-- All Packages --</option>
               {packages.map((pkg) => (
-                <option key={pkg._id} value={pkg._id}>
-                  {pkg.title}
+                <option key={pkg.packageId} value={pkg.packageId}>
+                  {pkg.packageTitle}
                 </option>
               ))}
             </select>

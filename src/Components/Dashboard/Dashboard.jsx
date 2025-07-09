@@ -23,32 +23,6 @@ const Dashboard = () => {
 
       {user?.role === "manager" && (
         <>
-          {/* Manage Destinations */}
-          <div className="relative">
-            <button
-              onClick={toggleDestDropdown}
-              className="py-1 px-3 hover:bg-gray-700 rounded-2xl nav-menu lg:text-lg w-full text-left"
-            >
-              Manage Destination
-            </button>
-            {showDestDropdown && (
-              <div className="absolute bg-base-200 mt-1 rounded-md shadow z-10 w-48">
-                <NavLink
-                  to="/dashboard/addDestinations"
-                  className="block px-4 py-2 hover:bg-gray-600"
-                >
-                  ➕ Add Destination
-                </NavLink>
-                <NavLink
-                  to="/dashboard/destinationList"
-                  className="block px-4 py-2 hover:bg-gray-600"
-                >
-                  👁️ View List
-                </NavLink>
-              </div>
-            )}
-          </div>
-
           {/* Manage Packages */}
           <div className="relative">
             <button
@@ -82,12 +56,7 @@ const Dashboard = () => {
           >
             View Bookings
           </NavLink>
-          <NavLink
-            to="/dashboard/approvePackage"
-            className="py-1 px-3 hover:bg-gray-700 rounded-2xl nav-menu lg:text-lg"
-          >
-            Approve Package
-          </NavLink>
+          
         </>
       )}
 
@@ -108,14 +77,42 @@ const Dashboard = () => {
         </>
       )}
 
-      {/* {user?.role === "manager" && (
-        <NavLink
-          to="/dashboard/addBookings"
-          className="py-1 px-3 hover:bg-gray-700 rounded-2xl nav-menu lg:text-lg"
-        >
-          Add Booking
-        </NavLink>
-      )} */}
+      {user?.role === "admin" && (
+        <>
+          {/* Manage Destinations */}
+          <div className="relative">
+            <button
+              onClick={toggleDestDropdown}
+              className="py-1 px-3 hover:bg-gray-700 rounded-2xl nav-menu lg:text-lg w-full text-left"
+            >
+              Manage Destination
+            </button>
+            {showDestDropdown && (
+              <div className="absolute bg-base-200 mt-1 rounded-md shadow z-10 w-48">
+                <NavLink
+                  to="/dashboard/addDestinations"
+                  className="block px-4 py-2 hover:bg-gray-600"
+                >
+                  ➕ Add Destination
+                </NavLink>
+                <NavLink
+                  to="/dashboard/destinationList"
+                  className="block px-4 py-2 hover:bg-gray-600"
+                >
+                  👁️ View List
+                </NavLink>
+              </div>
+            )}
+          </div>
+
+          <NavLink
+            to="/dashboard/approvePackage"
+            className="py-1 px-3 hover:bg-gray-700 rounded-2xl nav-menu lg:text-lg"
+          >
+            Approve Package
+          </NavLink>
+        </>
+      )}
     </>
   );
 

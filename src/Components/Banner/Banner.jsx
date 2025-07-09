@@ -6,7 +6,7 @@ import BlurText from "../../ReactBits/BlurText";
 
 const Banner = () => {
   return (
-    <div>
+    <div className="my-4">
       <div className="carousel w-full">
         <div
           id="item1"

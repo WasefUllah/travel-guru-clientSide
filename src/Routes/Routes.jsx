@@ -22,6 +22,7 @@ import Failed from "../Components/Failed/Failed";
 import MyBookings from "../Components/MyBookings/MyBookings";
 import PaymentHistory from "../Components/PaymentHistory/PaymentHistory";
 import PrivateRoute from "../PrivateRoute/PrivateRoute";
+import ApprovePackage from "../Components/ApprovePackage/ApprovePackage";
 
 export const router = createBrowserRouter([
   {
@@ -108,6 +109,10 @@ export const router = createBrowserRouter([
       {
         path: "/dashboard/paymentHistory",
         Component: PaymentHistory,
+      },
+      {
+        path: "/dashboard/approvePackage",
+        Component: ApprovePackage,
       },
     ],
   },

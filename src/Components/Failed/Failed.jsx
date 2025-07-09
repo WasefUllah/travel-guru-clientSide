@@ -18,6 +18,12 @@ const Failed = () => {
         >
           Go to Homepage
         </Link>
+        <Link
+          to={"/dashboard/myBookings"}
+          className="bg-blue-500 hover:bg-blue-600 btn text-white py-2 px-6 rounded-lg transition duration-200"
+        >
+          View My Apply List
+        </Link>
       </div>
     </div>
   );

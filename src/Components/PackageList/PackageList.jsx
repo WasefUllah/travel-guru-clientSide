@@ -1,18 +1,20 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import axios from "axios";
 import { baseUrl } from "../../URL/baseUrl";
 import Swal from "sweetalert2";
 import { FaHeart } from "react-icons/fa";
 import { CiHeart } from "react-icons/ci";
 import UpdatePackage from "../UpdatePackage/UpdatePackage";
+import { AuthContext } from "../../Provider/AuthProvider";
 
 const PackageList = () => {
+  const {user} = useContext(AuthContext)
   const [packages, setPackages] = useState([]);
   const [refresh, setRefresh] = useState(false);
   const [toBeUpdatedPackage, setToBeUpdatedPackage] = useState([]);
 
   useEffect(() => {
-    axios.get(`${baseUrl}/packagesList`).then((res) => {
+    axios.get(`${baseUrl}/packagesList?email=${user.email}`).then((res) => {
       setPackages(res.data);
     });
   }, [refresh]);

@@ -42,7 +42,7 @@ const PackageDetails = () => {
                 <span className="font-semibold">Duration:</span> {pack.duration}
               </p>
               <p>
-                <span className="font-semibold">Slots Left:</span> {pack.slot}
+                <span className="font-semibold">Slots</span> {pack.slot}
               </p>
               <p>
                 <span className="font-semibold">Group Size:</span>{" "}

@@ -9,7 +9,7 @@ import { AuthContext } from "../../Provider/AuthProvider";
 const AddPackage = () => {
   const { user } = useContext(AuthContext);
   const [title, setTitle] = useState("");
-
+  console.log(user.displayName);
   const [destinations, setDestinations] = useState([]);
   const [offerStartDate, setOfferStartDate] = useState(null);
   const [offerEndDate, setOfferEndDate] = useState(null);
@@ -36,6 +36,7 @@ const AddPackage = () => {
     singlePackage.booked = 0;
     singlePackage.popular = false;
     singlePackage.approved = false;
+    singlePackage.name = user.displayName;
     console.log(singlePackage);
 
     axios.post(`${baseUrl}/packages`, singlePackage).then((res) => {

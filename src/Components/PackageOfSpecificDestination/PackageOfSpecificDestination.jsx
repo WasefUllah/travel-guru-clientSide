@@ -8,7 +8,7 @@ const PackageOfSpecificDestination = () => {
   console.log(packages)
 
   return (
-    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 min-h-screen">
+    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 min-h-screen md:gap-4">
       {packages.map((pack, index) => (
         <PackageCard key={index} pack={pack}></PackageCard>
       ))}

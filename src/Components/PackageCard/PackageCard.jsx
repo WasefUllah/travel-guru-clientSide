@@ -22,6 +22,7 @@ const PackageCard = ({ pack }) => {
             <span className="text-primary font-semibold">৳{pack.price}</span>
             <span className="text-gray-500">{pack.duration}</span>
           </div>
+          <p>Posted by: {pack.name}</p>
         </div>
       </div>
     </Link>

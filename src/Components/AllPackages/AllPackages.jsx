@@ -28,6 +28,8 @@ const AllPackages = () => {
               <tr className="bg-gray-100 text-gray-700">
                 <th>#</th>
                 <th>Title</th>
+                <th>Name</th>
+
                 <th>Destination</th>
                 <th>Price</th>
                 <th>Slot</th>
@@ -44,6 +46,7 @@ const AllPackages = () => {
                   <td>{index + 1}</td>
 
                   <td>{pkg.title}</td>
+                  <td>{pkg.name}</td>
                   <td>{pkg.destinationTitle}</td>
                   <td>৳ {pkg.price}</td>
                   <td>{pkg.slot}</td>

@@ -5,18 +5,16 @@ import Swal from "sweetalert2";
 import { Tooltip } from "react-tooltip";
 
 const Navbar = () => {
-  const { user, logOut, setLoading } = useContext(AuthContext);
+  const { user, logOut, setLoading, loading } = useContext(AuthContext);
   const links = (
     <>
-      
-      
-        <NavLink
-          to={"/dashboard"}
-          className="py-1 px-2 hover:bg-gray-700 rounded-2xl nav-menu  lg:text-xl"
-        >
-          Dashboard
-        </NavLink>
-     
+      <NavLink
+        to={"/dashboard"}
+        className="py-1 px-2 hover:bg-gray-700 rounded-2xl nav-menu  lg:text-xl"
+      >
+        Dashboard
+      </NavLink>
+
       <NavLink
         to={"/destinations"}
         className="py-1 px-2 hover:bg-gray-700 rounded-2xl nav-menu  lg:text-xl"
@@ -42,7 +40,8 @@ const Navbar = () => {
     logOut()
       .then(() => {
         // Sign-out successful.
-        setLoading(false)
+        setLoading(false);
+        console.log("loading", loading);
         Swal.fire({
           title: "Logged out!",
           icon: "success",

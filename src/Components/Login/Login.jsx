@@ -1,14 +1,16 @@
 import Lottie from "lottie-react";
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import loginlottie from "../../assets/login.json";
 import { Link, useNavigate } from "react-router";
 import { AuthContext } from "../../Provider/AuthProvider";
 import axios from "axios";
 import { baseUrl } from "../../URL/baseUrl";
+import { FaEye, FaEyeSlash } from "react-icons/fa";
 const Login = () => {
   const navigate = useNavigate();
   const { signInWithEmailPass, setUser, signInWithGoogle } =
     useContext(AuthContext);
+  const [showPassword, setShowPassword] = useState(false);
 
   //   login btn handler
   const handleLoginBtn = (e) => {
@@ -86,24 +88,39 @@ const Login = () => {
           <div className="card-body">
             <h1 className="text-4xl font-bold">Login now!</h1>
             <form onSubmit={handleLoginBtn} className="fieldset">
-              <label className="label">Email</label>
-              <input
-                name="email"
-                type="email"
-                className="input"
-                placeholder="Email"
-              />
-              <label className="label">Password</label>
-              <input
-                name="pass"
-                type="password"
-                className="input"
-                placeholder="Password"
-              />
+              <div className="w-full">
+                <label className="label">Email</label>
+                <input
+                  name="email"
+                  type="email"
+                  className="input w-full"
+                  placeholder="Email"
+                />
+              </div>
+              <div className="relative">
+                <label className="label">Password</label>
+                <input
+                  name="pass"
+                  type={showPassword ? "text" : "password"}
+                  className="input input-bordered w-full pr-10"
+                  placeholder="Password"
+                />
+                <button
+                  type="button"
+                  className="absolute right-3 bottom-3 text-xl text-gray-600"
+                  onClick={() => setShowPassword((prev) => !prev)}
+                  tabIndex={-1}
+                >
+                  {showPassword ? <FaEyeSlash /> : <FaEye />}
+                </button>
+              </div>
               <div>
                 <p>
                   Don't have an account? Click here to{" "}
-                  <Link to={"/register"} className="link link-hover">
+                  <Link
+                    to={"/register"}
+                    className="link link-hover text-primary"
+                  >
                     register
                   </Link>
                 </p>

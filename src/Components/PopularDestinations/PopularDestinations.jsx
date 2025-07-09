@@ -12,7 +12,7 @@ const PopularDestinations = () => {
         setPopular(res.data);
       })
       .catch();
-  });
+  },[]);
   return (
     <div>
       <div className="my-10">

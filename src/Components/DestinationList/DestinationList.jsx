@@ -31,7 +31,7 @@ const DestinationList = () => {
     console.log(id);
     try {
       await axios.get(`${baseUrl}/relatedPackages/${id}`).then((res) => {
-        console.log(res.data, "------------------------------------");
+        
         if (res.data.length > 0) {
           Swal.fire({
             icon: "error",

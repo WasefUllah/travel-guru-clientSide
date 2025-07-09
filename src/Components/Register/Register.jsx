@@ -32,7 +32,7 @@ const Register = () => {
               name,
               email,
               photo,
-              role: "customer", 
+              role: "customer",
             };
 
             const postRes = await axios.post(`${baseUrl}/users`, newUser);
@@ -163,7 +163,7 @@ const Register = () => {
               <div>
                 <div>
                   Already have an account? Click here to{" "}
-                  <Link to={"/login"} className="link link-hover">
+                  <Link to={"/login"} className="link link-hover text-primary">
                     login
                   </Link>
                   {errorText ? (

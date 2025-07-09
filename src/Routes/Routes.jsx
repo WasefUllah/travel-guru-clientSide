@@ -25,6 +25,8 @@ import PrivateRoute from "../PrivateRoute/PrivateRoute";
 import ApprovePackage from "../Components/ApprovePackage/ApprovePackage";
 import AllPackages from "../Components/AllPackages/AllPackages";
 import AboutUs from "../Components/AboutUs/AboutUs";
+import AdminAddFAQ from "../Components/AdminAddFAQ/AdminAddFAQ";
+import BlurText from "../ReactBits/BlurText";
 
 export const router = createBrowserRouter([
   {
@@ -63,13 +65,13 @@ export const router = createBrowserRouter([
       },
       {
         path: "/packageDetails/:id",
-        Component: PackageDetails,
+        element: <PrivateRoute><PackageDetails></PackageDetails></PrivateRoute>,
         loader: ({ params }) => fetch(`${baseUrl}/package/${params.id}`),
         hydrateFallbackElement: <Loader></Loader>,
       },
       {
         path: "/viewPackages/:id",
-        Component: PackageOfSpecificDestination,
+        element:<PrivateRoute><PackageOfSpecificDestination></PackageOfSpecificDestination></PrivateRoute> ,
         loader: ({ params }) => fetch(`${baseUrl}/viewPackages/${params.id}`),
         hydrateFallbackElement: <Loader></Loader>,
       },
@@ -85,7 +87,17 @@ export const router = createBrowserRouter([
     children: [
       {
         index: true,
-        element: <h1>hi this is dashboard</h1>,
+        element: (
+          <div className="min-h-[600px] flex justify-center items-center">
+            <BlurText
+              text="Welcome to Dashboard"
+              delay={150}
+              animateBy="words"
+              direction="top"
+              className="text-xl md:text-5xl lg:text-7xl text-blue-400 text-center font-bold   "
+            />
+          </div>
+        ),
       },
 
       {
@@ -123,6 +135,10 @@ export const router = createBrowserRouter([
       {
         path: "/dashboard/allPackages",
         Component: AllPackages,
+      },
+      {
+        path: "/dashboard/faq",
+        Component: AdminAddFAQ,
       },
     ],
   },

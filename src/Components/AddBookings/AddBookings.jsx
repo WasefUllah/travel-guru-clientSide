@@ -20,6 +20,7 @@ const AddBookings = () => {
     const booking = Object.fromEntries(formData.entries());
     booking.userEmail = user.email;
     booking.packageId = pack._id;
+    booking.destinationId = pack.destinationId;
     booking.fee = pack.price;
     booking.travelDate = travelDate;
     booking.managerEmail = pack.email;

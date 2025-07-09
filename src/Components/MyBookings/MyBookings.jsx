@@ -4,7 +4,7 @@ import { baseUrl } from "../../URL/baseUrl";
 import { AuthContext } from "../../Provider/AuthProvider";
 import { format } from "date-fns";
 
-const ViewBookings = () => {
+const MyBookings = () => {
   const { user } = useContext(AuthContext);
   const email = user?.email;
   const role = user?.role;
@@ -101,4 +101,4 @@ const ViewBookings = () => {
   );
 };
 
-export default ViewBookings;
+export default MyBookings;

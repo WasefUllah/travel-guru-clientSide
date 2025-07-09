@@ -19,6 +19,7 @@ import PackageList from "../Components/PackageList/PackageList";
 import PackageDetails from "../Components/PackageDetails/PackageDetails";
 import Success from "../Components/Success/Success";
 import Failed from "../Components/Failed/Failed";
+import MyBookings from "../Components/MyBookings/MyBookings";
 
 export const router = createBrowserRouter([
   {
@@ -93,6 +94,10 @@ export const router = createBrowserRouter([
       {
         path: "/dashboard/packageList",
         Component: PackageList,
+      },
+      {
+        path: "/dashboard/myBookings",
+        Component: MyBookings,
       },
     ],
   },

@@ -82,6 +82,12 @@ const Dashboard = () => {
           >
             View Bookings
           </NavLink>
+          <NavLink
+            to="/dashboard/myBookings"
+            className="py-1 px-3 hover:bg-gray-700 rounded-2xl nav-menu lg:text-lg"
+          >
+            MyBookings
+          </NavLink>
         </>
       )}
 

@@ -2,15 +2,30 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { baseUrl } from "../../URL/baseUrl";
 import Swal from "sweetalert2";
+import { FaHeart } from "react-icons/fa";
+import { CiHeart } from "react-icons/ci";
+import UpdateDestination from "../UpdateDestination/UpdateDestination";
 
 const DestinationList = () => {
   const [destinations, setDestinations] = useState([]);
+  const [refresh, setRefresh] = useState(false);
+  const [toBeUpdatedDestination, setToBeUpdatedDestination] = useState([]);
 
   useEffect(() => {
     axios.get(`${baseUrl}/destinations`).then((res) => {
       setDestinations(res.data);
     });
-  }, []);
+  }, [refresh]);
+  const handleClick = (id) => {
+    axios
+      .patch(`${baseUrl}/booking/${id}`)
+      .then((res) => {
+        if (res.data.modifiedCount > 0) {
+          setRefresh(!refresh);
+        }
+      })
+      .catch();
+  };
 
   const handleDelete = async (id) => {
     console.log(id);
@@ -51,16 +66,9 @@ const DestinationList = () => {
                 })
                 .catch((err) => console.log(err));
             }
-            // axios.delete(`${baseUrl}/destinations/${id}`).then((res) => {
-            //   if (res.data.deletedCount) {
-            //     // remaining logic
-            //   }
           });
         }
       });
-
-      // setDestinations((prev) => prev.filter((item) => item._id !== id));
-      // alert("Destination deleted.");
     } catch (err) {
       console.log(err);
     }
@@ -69,6 +77,9 @@ const DestinationList = () => {
   const handleUpdate = (id) => {
     // Navigate or open a modal (depends on your app flow)
     console.log("Update destination:", id);
+    console.log("Update package:", id);
+    const selected = destinations.find((p) => p._id == id);
+    setToBeUpdatedDestination(selected);
   };
 
   return (
@@ -77,49 +88,77 @@ const DestinationList = () => {
       {!destinations ? (
         <p>No available destination</p>
       ) : (
-        <table className="table w-full border">
-          <thead>
-            <tr className="bg-gray-100 text-gray-700">
-              <th>#</th>
-              <th>Photo</th>
-              <th>Name</th>
-              <th>Description</th>
-              <th>Email</th>
-              <th>Actions</th>
-            </tr>
-          </thead>
-          <tbody>
-            {destinations.map((dest, index) => (
-              <tr key={dest._id}>
-                <td className="font-semibold">{index + 1}</td>
-                <td>
-                  <img
-                    src={dest.destinationPhoto}
-                    alt={dest.destinationName}
-                    className="w-16 h-16 object-cover rounded-md"
-                  />
-                </td>
-                <td>{dest.destinationName}</td>
-                <td>{dest.destinationDescription.slice(0, 30)}...</td>
-                <td>{dest.email}</td>
-                <td className="space-x-2">
-                  <button
-                    onClick={() => handleUpdate(dest._id)}
-                    className="btn btn-sm btn-outline btn-info"
-                  >
-                    Update
-                  </button>
-                  <button
-                    onClick={() => handleDelete(dest._id)}
-                    className="btn btn-sm btn-outline btn-error"
-                  >
-                    Delete
-                  </button>
-                </td>
+        <div>
+          <table className="table w-full border">
+            <thead>
+              <tr className="bg-gray-100 text-gray-700">
+                <th>#</th>
+                <th>Photo</th>
+                <th>Name</th>
+                <th>Description</th>
+                <th>Email</th>
+                <th>popular</th>
+                <th>Actions</th>
               </tr>
-            ))}
-          </tbody>
-        </table>
+            </thead>
+            <tbody>
+              {destinations.map((dest, index) => (
+                <tr key={dest._id}>
+                  <td className="font-semibold">{index + 1}</td>
+                  <td>
+                    <img
+                      src={dest.destinationPhoto}
+                      alt={dest.destinationName}
+                      className="w-16 h-16 object-cover rounded-md"
+                    />
+                  </td>
+                  <td>{dest.destinationName}</td>
+                  <td>{dest.destinationDescription.slice(0, 30)}...</td>
+                  <td>{dest.email}</td>
+                  <td onClick={() => handleClick(dest._id)}>
+                    {dest.popular ? (
+                      <FaHeart size={25} className="text-red-600" />
+                    ) : (
+                      <CiHeart size={25} />
+                    )}
+                  </td>
+                  <td className="space-x-2">
+                    <button
+                      onClick={() => {
+                        handleUpdate(dest._id);
+                        document.getElementById("my_modal_2").showModal();
+                      }}
+                      className="btn btn-sm btn-outline btn-info"
+                    >
+                      Update
+                    </button>
+                    <button
+                      onClick={() => handleDelete(dest._id)}
+                      className="btn btn-sm btn-outline btn-error"
+                    >
+                      Delete
+                    </button>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+          <dialog id="my_modal_2" className="modal">
+            <div className="modal-box">
+              <UpdateDestination
+                toBeUpdatedDestination={toBeUpdatedDestination}
+                refresh={refresh}
+                setRefresh={setRefresh}
+              ></UpdateDestination>
+              <div className="modal-action">
+                <form method="dialog">
+                  {/* if there is a button in form, it will close the modal */}
+                  <button className="btn">Close</button>
+                </form>
+              </div>
+            </div>
+          </dialog>
+        </div>
       )}
     </div>
   );

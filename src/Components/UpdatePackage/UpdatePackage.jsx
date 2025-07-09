@@ -10,12 +10,21 @@ const UpdatePackage = ({ toBeUpdatedPackage, refresh, setRefresh }) => {
     const formData = new FormData(form);
     const updatedFields = Object.fromEntries(formData.entries());
     console.log(updatedFields);
+    if (e.target.slot.value < toBeUpdatedPackage.booked) {
+      Swal.fire({
+        position: "top-end",
+        title: "Already have more booked customer",
+        icon: "error",
+        draggable: true,
+      });
+      return;
+    }
     axios
       .patch(`${baseUrl}/package/${toBeUpdatedPackage._id}`, updatedFields)
       .then((res) => {
         if (res.data.modifiedCount) {
+          form.reset();
           setRefresh(!refresh);
-          console.log("hi");
           Swal.fire({
             position: "top-end",
             icon: "success",

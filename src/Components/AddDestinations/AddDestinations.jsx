@@ -18,6 +18,7 @@ const AddDestinations = () => {
       destinationPhoto,
       email: user.email,
       name: user.displayName,
+      popular: false,
     };
     console.log(destination);
 

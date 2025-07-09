@@ -12,7 +12,7 @@ const PackageList = () => {
   const [toBeUpdatedPackage, setToBeUpdatedPackage] = useState([]);
 
   useEffect(() => {
-    axios.get(`${baseUrl}/packages`).then((res) => {
+    axios.get(`${baseUrl}/packagesList`).then((res) => {
       setPackages(res.data);
     });
   }, [refresh]);
@@ -89,6 +89,7 @@ const PackageList = () => {
                 <th>Duration</th>
                 <th>Slots</th>
                 <th>Bookings</th>
+                <th>approved</th>
                 <th>popular</th>
                 <th>Actions</th>
               </tr>
@@ -109,12 +110,32 @@ const PackageList = () => {
                   <td>{pkg.duration}</td>
                   <td>{pkg.slot}</td>
                   <td>{pkg.booked}</td>
-                  <td onClick={() => handleClick(pkg._id)}>
-                    {pkg.popular ? (
-                      <FaHeart size={25} className="text-red-600" />
+                  <td>
+                    {pkg.approved ? (
+                      <span className="text-green-500 font-bold">Yes</span>
                     ) : (
-                      <CiHeart size={25} />
+                      <span className="text-red-500 font-bold">No</span>
                     )}
+                  </td>
+                  <td>
+                    <button
+                      onClick={() => handleClick(pkg._id)}
+                      disabled={!pkg.approved} // disables if approved is false
+                      className={`btn p-1 ${
+                        !pkg.approved ? "opacity-50 cursor-not-allowed" : ""
+                      }`}
+                      title={
+                        !pkg.approved
+                          ? "Approve this package to enable this feature"
+                          : ""
+                      }
+                    >
+                      {pkg.popular ? (
+                        <FaHeart size={25} className="text-red-600" />
+                      ) : (
+                        <CiHeart size={25} />
+                      )}
+                    </button>
                   </td>
                   <td className="space-x-2">
                     <button

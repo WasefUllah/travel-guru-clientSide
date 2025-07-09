@@ -10,8 +10,8 @@ const Dashboard = () => {
   const [showDestDropdown, setShowDestDropdown] = useState(false);
   const [showPackDropdown, setShowPackDropdown] = useState(false);
 
-  const toggleDestDropdown = () => setShowDestDropdown((prev) => !prev);
-  const togglePackDropdown = () => setShowPackDropdown((prev) => !prev);
+  const toggleDestDropdown = () => setShowDestDropdown(!showDestDropdown);
+  const togglePackDropdown = () => setShowPackDropdown(!showPackDropdown);
   const links = (
     <>
       <NavLink
@@ -87,6 +87,12 @@ const Dashboard = () => {
             className="py-1 px-3 hover:bg-gray-700 rounded-2xl nav-menu lg:text-lg"
           >
             MyBookings
+          </NavLink>
+          <NavLink
+            to="/dashboard/paymentHistory"
+            className="py-1 px-3 hover:bg-gray-700 rounded-2xl nav-menu lg:text-lg"
+          >
+            Payment History
           </NavLink>
         </>
       )}

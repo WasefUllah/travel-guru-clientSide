@@ -7,8 +7,9 @@ import Swal from "sweetalert2";
 import { AuthContext } from "../../Provider/AuthProvider";
 
 const AddPackage = () => {
-    const {user} = useContext(AuthContext)
-  
+  const { user } = useContext(AuthContext);
+  const [title, setTitle] = useState("");
+
   const [destinations, setDestinations] = useState([]);
   const [offerStartDate, setOfferStartDate] = useState(null);
   const [offerEndDate, setOfferEndDate] = useState(null);
@@ -16,18 +17,19 @@ const AddPackage = () => {
     axios
       .get(`${baseUrl}/destinations`)
       .then((res) => {
-        setDestinations(res.data); 
+        setDestinations(res.data);
       })
       .catch((err) => {
         console.error("Failed to fetch destinations:", err);
       });
   }, []);
-
+  console.log(title);
   console.log(destinations);
   const handleSubmit = (e) => {
     e.preventDefault();
     const formData = new FormData(e.target);
     const singlePackage = Object.fromEntries(formData.entries());
+    singlePackage.destinationTitle = title;
     singlePackage.offerStartDate = offerStartDate;
     singlePackage.offerEndDate = offerEndDate;
     singlePackage.email = user.email;
@@ -57,6 +59,13 @@ const AddPackage = () => {
           <label className="block mb-1 font-medium">Select Destination</label>
           <select
             name="destinationId"
+            onChange={(e) => {
+              const selectedId = e.target.value;
+              const selectedDestination = destinations.find(
+                (d) => d._id == selectedId
+              );
+              setTitle(selectedDestination?.destinationName);
+            }}
             className="select select-bordered text-white"
             required
           >

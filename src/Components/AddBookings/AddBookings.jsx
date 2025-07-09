@@ -25,6 +25,7 @@ const AddBookings = () => {
     booking.travelDate = travelDate;
     booking.managerEmail = pack.email;
     booking.packageTitle = pack.title;
+    booking.destinationTitle = pack.destinationTitle;
     booking.bookedAt = new Date();
     console.log(booking);
 

@@ -16,7 +16,7 @@ const DestinationList = () => {
     console.log(id);
     try {
       await axios.get(`${baseUrl}/relatedPackages/${id}`).then((res) => {
-        console.log(res.data);
+        console.log(res.data, "------------------------------------");
         if (res.data.length > 0) {
           Swal.fire({
             icon: "error",
@@ -72,51 +72,55 @@ const DestinationList = () => {
   };
 
   return (
-    <div className="overflow-x-auto p-4">
+    <div className="overflow-x-auto p-4 min-h-screen">
       <h2 className="text-2xl font-bold mb-4">All Destinations</h2>
-      <table className="table w-full border">
-        <thead>
-          <tr className="bg-gray-100 text-gray-700">
-            <th>#</th>
-            <th>Photo</th>
-            <th>Name</th>
-            <th>Description</th>
-            <th>Email</th>
-            <th>Actions</th>
-          </tr>
-        </thead>
-        <tbody>
-          {destinations.map((dest, index) => (
-            <tr key={dest._id}>
-              <td className="font-semibold">{index + 1}</td>
-              <td>
-                <img
-                  src={dest.destinationPhoto}
-                  alt={dest.destinationName}
-                  className="w-16 h-16 object-cover rounded-md"
-                />
-              </td>
-              <td>{dest.destinationName}</td>
-              <td>{dest.destinationDescription.slice(0, 30)}...</td>
-              <td>{dest.email}</td>
-              <td className="space-x-2">
-                <button
-                  onClick={() => handleUpdate(dest._id)}
-                  className="btn btn-sm btn-outline btn-info"
-                >
-                  Update
-                </button>
-                <button
-                  onClick={() => handleDelete(dest._id)}
-                  className="btn btn-sm btn-outline btn-error"
-                >
-                  Delete
-                </button>
-              </td>
+      {!destinations ? (
+        <p>No available destination</p>
+      ) : (
+        <table className="table w-full border">
+          <thead>
+            <tr className="bg-gray-100 text-gray-700">
+              <th>#</th>
+              <th>Photo</th>
+              <th>Name</th>
+              <th>Description</th>
+              <th>Email</th>
+              <th>Actions</th>
             </tr>
-          ))}
-        </tbody>
-      </table>
+          </thead>
+          <tbody>
+            {destinations.map((dest, index) => (
+              <tr key={dest._id}>
+                <td className="font-semibold">{index + 1}</td>
+                <td>
+                  <img
+                    src={dest.destinationPhoto}
+                    alt={dest.destinationName}
+                    className="w-16 h-16 object-cover rounded-md"
+                  />
+                </td>
+                <td>{dest.destinationName}</td>
+                <td>{dest.destinationDescription.slice(0, 30)}...</td>
+                <td>{dest.email}</td>
+                <td className="space-x-2">
+                  <button
+                    onClick={() => handleUpdate(dest._id)}
+                    className="btn btn-sm btn-outline btn-info"
+                  >
+                    Update
+                  </button>
+                  <button
+                    onClick={() => handleDelete(dest._id)}
+                    className="btn btn-sm btn-outline btn-error"
+                  >
+                    Delete
+                  </button>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      )}
     </div>
   );
 };

@@ -20,6 +20,7 @@ import PackageDetails from "../Components/PackageDetails/PackageDetails";
 import Success from "../Components/Success/Success";
 import Failed from "../Components/Failed/Failed";
 import MyBookings from "../Components/MyBookings/MyBookings";
+import PaymentHistory from "../Components/PaymentHistory/PaymentHistory";
 
 export const router = createBrowserRouter([
   {
@@ -98,6 +99,10 @@ export const router = createBrowserRouter([
       {
         path: "/dashboard/myBookings",
         Component: MyBookings,
+      },
+      {
+        path: "/dashboard/paymentHistory",
+        Component: PaymentHistory,
       },
     ],
   },

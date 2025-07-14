@@ -2,7 +2,7 @@ import React from "react";
 import { Link } from "react-router";
 
 const PackageCard = ({ pack }) => {
-  console.log(pack);
+
   return (
     <Link to={`/packageDetails/${pack._id}`}>
       <div className="card bg-base-100 shadow-md hover:shadow-xl transition duration-300 rounded-xl overflow-hidden h-96">

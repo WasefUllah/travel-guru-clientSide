@@ -9,12 +9,11 @@ const MyBookings = () => {
   const { user } = useContext(AuthContext);
   const email = user?.email;
   const role = user?.role;
-  console.log(role);
   const [packages, setPackages] = useState([]);
   const [bookings, setBookings] = useState([]);
   const [selectedPackageId, setSelectedPackageId] = useState("");
   const handleDelete = (id) => {
-    console.log(id);
+  
     Swal.fire({
       title: "Are you sure?",
       text: "You won't get refund!",
@@ -45,7 +44,6 @@ const MyBookings = () => {
   // Fetch packages created by this manager
   useEffect(() => {
     if (!email) return;
-
     axios
       .get(`${baseUrl}/packages?email=${email}`)
       .then((res) => {
@@ -64,6 +62,7 @@ const MyBookings = () => {
       .then((res) => setBookings(res.data))
       .catch((err) => console.error(err));
   }, [email, selectedPackageId]);
+
 
   return (
     <div className="p-4 max-w-6xl mx-auto min-h-screen">

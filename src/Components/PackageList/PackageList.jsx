@@ -69,7 +69,7 @@ const PackageList = () => {
   };
 
   const handleUpdate = (id) => {
-    console.log("Update package:", id);
+
     const selected = packages.find((p) => p._id == id);
     setToBeUpdatedPackage(selected);
   };

@@ -9,7 +9,7 @@ const UpdatePackage = ({ toBeUpdatedPackage, refresh, setRefresh }) => {
     const form = e.target;
     const formData = new FormData(form);
     const updatedFields = Object.fromEntries(formData.entries());
-    console.log(updatedFields);
+   
     if (e.target.slot.value < toBeUpdatedPackage.booked) {
       Swal.fire({
         position: "top-end",
@@ -36,7 +36,7 @@ const UpdatePackage = ({ toBeUpdatedPackage, refresh, setRefresh }) => {
       })
       .catch();
   };
-  console.log(toBeUpdatedPackage);
+
 
   return (
     <div>

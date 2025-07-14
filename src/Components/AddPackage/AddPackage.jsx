@@ -9,7 +9,7 @@ import { AuthContext } from "../../Provider/AuthProvider";
 const AddPackage = () => {
   const { user } = useContext(AuthContext);
   const [title, setTitle] = useState("");
-  console.log(user.displayName);
+
   const [destinations, setDestinations] = useState([]);
   const [offerStartDate, setOfferStartDate] = useState(null);
   const [offerEndDate, setOfferEndDate] = useState(null);
@@ -23,8 +23,7 @@ const AddPackage = () => {
         console.error("Failed to fetch destinations:", err);
       });
   }, []);
-  console.log(title);
-  console.log(destinations);
+
   const handleSubmit = (e) => {
     e.preventDefault();
     const formData = new FormData(e.target);
@@ -37,7 +36,7 @@ const AddPackage = () => {
     singlePackage.popular = false;
     singlePackage.approved = false;
     singlePackage.name = user.displayName;
-    console.log(singlePackage);
+
 
     axios.post(`${baseUrl}/packages`, singlePackage).then((res) => {
       if (res.data.insertedId) {

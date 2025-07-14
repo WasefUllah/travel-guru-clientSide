@@ -8,7 +8,7 @@ const ViewBookings = () => {
   const { user } = useContext(AuthContext);
   const email = user?.email;
   const role = user?.role;
-  console.log(role);
+
   const [packages, setPackages] = useState([]);
   const [bookings, setBookings] = useState([]);
   const [selectedPackageId, setSelectedPackageId] = useState("");
@@ -24,7 +24,7 @@ const ViewBookings = () => {
       })
       .catch((err) => console.error(err));
   }, [email]);
-  console.log(packages, "----------------");
+ 
   // Fetch bookings whenever selectedPackageId or email changes
   useEffect(() => {
     if (!email) return;

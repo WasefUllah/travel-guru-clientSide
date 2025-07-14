@@ -28,7 +28,6 @@ const AddBookings = () => {
     booking.packageTitle = pack.title;
     booking.destinationTitle = pack.destinationTitle;
     booking.bookedAt = new Date();
-    console.log(pack);
     const selectedDate = new Date(travelDate);
     const startDate = new Date(pack.offerStartDate);
     const endDate = new Date(pack.offerEndDate);
@@ -51,11 +50,7 @@ const AddBookings = () => {
       confirmButtonText: "Yes, Book it!",
     }).then((result) => {
       if (result.isConfirmed) {
-        // Swal.fire({
-        //   title: "Deleted!",
-        //   text: "Your file has been deleted.",
-        //   icon: "success",
-        // });
+
         try {
           axios
             .post(`${baseUrl}/bookings`, booking)

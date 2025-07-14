@@ -2,7 +2,6 @@ import React from "react";
 import { Link } from "react-router";
 
 const DestinationCard = ({ destination }) => {
-  console.log(destination);
   return (
     <Link to={`/viewPackages/${destination._id}`}>
       <div className="card bg-base-100 shadow-xl rounded-xl overflow-hidden h-96">

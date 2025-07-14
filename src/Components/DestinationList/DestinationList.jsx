@@ -28,7 +28,7 @@ const DestinationList = () => {
   };
 
   const handleDelete = async (id) => {
-    console.log(id);
+
     try {
       await axios.get(`${baseUrl}/relatedPackages/${id}`).then((res) => {
         
@@ -76,8 +76,7 @@ const DestinationList = () => {
 
   const handleUpdate = (id) => {
     // Navigate or open a modal (depends on your app flow)
-    console.log("Update destination:", id);
-    console.log("Update package:", id);
+ 
     const selected = destinations.find((p) => p._id == id);
     setToBeUpdatedDestination(selected);
   };

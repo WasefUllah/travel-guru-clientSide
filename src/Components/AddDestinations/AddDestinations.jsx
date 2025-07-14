@@ -20,10 +20,10 @@ const AddDestinations = () => {
       name: user.displayName,
       popular: false,
     };
-    console.log(destination);
+
 
     axios.post(`${baseUrl}/destinations`, destination).then((res) => {
-      console.log(res);
+
       if (res.data.insertedId) {
         form.reset();
         Swal.fire({

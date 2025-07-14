@@ -6,7 +6,7 @@ import { Tooltip } from "react-tooltip";
 
 const Dashboard = () => {
   const { user, logOut } = useContext(AuthContext);
-  console.log(user);
+
   const [showDestDropdown, setShowDestDropdown] = useState(false);
   const [showPackDropdown, setShowPackDropdown] = useState(false);
 

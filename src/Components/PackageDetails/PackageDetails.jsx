@@ -5,7 +5,7 @@ import Swal from "sweetalert2";
 const PackageDetails = () => {
   const pack = useLoaderData();
   const navigate = useNavigate();
-  console.log(pack);
+ 
   const remainingSlot = parseInt(pack.slot) - parseInt(pack.booked);
   const handleClick = (id) => {
     if (remainingSlot <= 0) {

@@ -9,10 +9,12 @@ const Packages = () => {
     axios
       .get(`${baseUrl}/packages`)
       .then((res) => {
+
         setPackages(res.data);
       })
       .catch();
   }, []);
+
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 min-h-screen md:gap-4">
       {packages.map((pack, index) => (

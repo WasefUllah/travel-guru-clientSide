@@ -41,7 +41,7 @@ const Navbar = () => {
       .then(() => {
         // Sign-out successful.
         setLoading(false);
-        console.log("loading", loading);
+       
         Swal.fire({
           title: "Logged out!",
           icon: "success",
@@ -52,7 +52,7 @@ const Navbar = () => {
         // An error happened.
       });
   };
-  console.log(user);
+
   return (
     <div className="navbar bg-base-100 shadow-sm p-4 sticky top-0 z-20">
       <div className="navbar-start">

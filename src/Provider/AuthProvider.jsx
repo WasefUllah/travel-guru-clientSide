@@ -15,7 +15,7 @@ import axios from "axios";
 import { baseUrl } from "../URL/baseUrl";
 const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
 
   const googleProvider = new GoogleAuthProvider();
   // Google sign in

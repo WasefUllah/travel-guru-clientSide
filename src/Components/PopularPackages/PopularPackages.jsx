@@ -20,8 +20,8 @@ const PopularPackages = () => {
           Popular Packages
         </h1>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3  md:gap-4">
-          {popular.map((pkg) => (
-            <PackageCard pack={pkg}></PackageCard>
+          {popular.map((pkg, index) => (
+            <PackageCard key={index} pack={pkg}></PackageCard>
           ))}
         </div>
       </div>

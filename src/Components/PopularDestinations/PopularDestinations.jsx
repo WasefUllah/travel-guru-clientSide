@@ -20,8 +20,8 @@ const PopularDestinations = () => {
           Popular Destinations
         </h1>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 md:gap-4">
-          {popular.map((dest) => (
-            <DestinationCard destination={dest}></DestinationCard>
+          {popular.map((dest, index) => (
+            <DestinationCard key={index} destination={dest}></DestinationCard>
           ))}
         </div>
       </div>

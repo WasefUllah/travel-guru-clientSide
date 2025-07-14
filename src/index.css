@@ -1,6 +1,7 @@
 @import "tailwindcss";
-@plugin "daisyui";
-
+@plugin "daisyui" {
+  themes: dark --default;
+}
 .nav-menu.active {
- background-color: rgb(124, 117, 117);
+  background-color: rgb(124, 117, 117);
 }

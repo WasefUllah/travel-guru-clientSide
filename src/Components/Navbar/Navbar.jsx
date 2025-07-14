@@ -5,7 +5,7 @@ import Swal from "sweetalert2";
 import { Tooltip } from "react-tooltip";
 
 const Navbar = () => {
-  const { user, logOut, setLoading, loading } = useContext(AuthContext);
+  const { user, logOut, setLoading } = useContext(AuthContext);
   const links = (
     <>
       <NavLink

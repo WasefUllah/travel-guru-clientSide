@@ -43,6 +43,7 @@ const AuthProvider = ({ children }) => {
   };
 
   useEffect(() => {
+   
     const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
       setUser(currentUser);
       axios.get(`${baseUrl}/users?email=${currentUser.email}`).then((res) => {
@@ -50,6 +51,7 @@ const AuthProvider = ({ children }) => {
         setUser({ ...currentUser, role });
       });
       setLoading(false);
+   
     });
     return () => {
       unsubscribe();

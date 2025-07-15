@@ -38,10 +38,10 @@ const Navbar = () => {
 
   const handleLogoutBtn = () => {
     logOut()
-      .then(() => {
+      .then(async () => {
         // Sign-out successful.
-        setLoading(false);
-       
+        await setLoading(false);
+
         Swal.fire({
           title: "Logged out!",
           icon: "success",

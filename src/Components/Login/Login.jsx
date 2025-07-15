@@ -47,9 +47,10 @@ const Login = () => {
 
         // 1. Check if user exists in DB
         try {
+       
           const res = await axios.get(`${baseUrl}/users?email=${email}`);
           const dbUser = res.data.user;
-
+      
           // 2. If user exists, setUser with role
           if (res.data.exists) {
             setUser({ ...user, role: dbUser.role });
@@ -64,7 +65,8 @@ const Login = () => {
             };
 
             const postRes = await axios.post(`${baseUrl}/users`, newUser);
-            if (postRes.data.inserted) {
+          
+            if (postRes.data.insertedId) {
               setUser({ ...user, role: newUser.role });
               navigate("/");
             }

@@ -1,11 +1,12 @@
 import React, { useContext } from "react";
-import { Link, NavLink } from "react-router";
+import { Link, NavLink, useNavigate } from "react-router";
 import { AuthContext } from "../../Provider/AuthProvider";
 import Swal from "sweetalert2";
 import { Tooltip } from "react-tooltip";
 
 const Navbar = () => {
   const { user, logOut, setLoading } = useContext(AuthContext);
+  const navigate = useNavigate();
   const links = (
     <>
       <NavLink
@@ -47,6 +48,7 @@ const Navbar = () => {
           icon: "success",
           draggable: true,
         });
+        navigate("/");
       })
       .catch(() => {
         // An error happened.

@@ -79,5 +79,3 @@ npm run dev
 📄 License
 This project is for educational purposes and open to further improvements and contributions.
 
-
-Let me know if you'd like a **server-side README**, or if I should convert this to a **PDF or DOCX** for submissio
